@@ -1,3 +1,6 @@
 /apps/*
+!/apps/.gitkeep
 /logs/*
+/data/*
+!/data/.gitkeep
 .env
