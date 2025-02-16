@@ -1,15 +1,15 @@
 include:
-  - services/bazarr.yml
-  - services/homarr.yml
-  - services/lidarr.yml
-  - services/plex.yml
-  - services/portainer.yml
-  - services/prowlarr.yml
-  - services/qbittorrent.yml
-  - services/radarr.yml
-  - services/sonarr.yml
-  - services/tautulli.yml
-  - services/watchtower.yml
+  - services/bazarr/docker-compose.yml
+  - services/homarr/docker-compose.yml
+  - services/lidarr/docker-compose.yml
+  - services/plex/docker-compose.yml
+  - services/portainer/docker-compose.yml
+  - services/prowlarr/docker-compose.yml
+  - services/qbittorrent/docker-compose.yml
+  - services/radarr/docker-compose.yml
+  - services/sonarr/docker-compose.yml
+  - services/tautulli/docker-compose.yml
+  - services/watchtower/docker-compose.yml
 
 
 networks: 
