@@ -2,6 +2,7 @@
   "version": "4",
   "specifiers": {
     "jsr:@cliffy/ansi@1.0.0-rc.7": "1.0.0-rc.7",
+    "jsr:@cliffy/ansi@^1.0.0-rc.7": "1.0.0-rc.7",
     "jsr:@cliffy/command@1.0.0-rc.7": "1.0.0-rc.7",
     "jsr:@cliffy/command@^1.0.0-rc.7": "1.0.0-rc.7",
     "jsr:@cliffy/flags@1.0.0-rc.7": "1.0.0-rc.7",
@@ -23,8 +24,6 @@
     "jsr:@std/yaml@*": "1.0.5",
     "jsr:@std/yaml@^1.0.5": "1.0.5",
     "npm:@json-types/compose@0.8": "0.8.0",
-    "npm:chalk@*": "5.4.1",
-    "npm:chalk@^5.4.1": "5.4.1",
     "npm:docker-compose@*": "1.1.0",
     "npm:docker-compose@^1.1.0": "1.1.0"
   },
@@ -33,7 +32,8 @@
       "integrity": "f71c921cce224c13d322e5cedba4f38e8f7354c7d855c9cb22729362a53f25aa",
       "dependencies": [
         "jsr:@cliffy/internal",
-        "jsr:@std/encoding"
+        "jsr:@std/encoding",
+        "jsr:@std/fmt"
       ]
     },
     "@cliffy/command@1.0.0-rc.7": {
@@ -61,7 +61,7 @@
     "@cliffy/prompt@1.0.0-rc.7": {
       "integrity": "a9cbd13acd8073558447cae8ca4cf593c09d23bcbe429cc63346920c21187b83",
       "dependencies": [
-        "jsr:@cliffy/ansi",
+        "jsr:@cliffy/ansi@1.0.0-rc.7",
         "jsr:@cliffy/internal",
         "jsr:@cliffy/keycode",
         "jsr:@std/assert@~1.0.6",
@@ -114,9 +114,6 @@
     "@json-types/compose@0.8.0": {
       "integrity": "sha512-YS0tC93+ZIhCAirpugLNhJ9BuJrsRpaqiM4ujBv8987sDwwn2heG5qkoLFJ8jN93oqhaBHb4tcX+rMQHs3wr2A=="
     },
-    "chalk@5.4.1": {
-      "integrity": "sha512-zgVZuo2WcZgfUEmsn6eO3kINexW8RAE4maiQ8QNs8CtpPCSyMiYsULR3HQYkm3w8FIA3SberyMJMSldGsW+U3w=="
-    },
     "docker-compose@1.1.0": {
       "integrity": "sha512-VrkQJNafPQ5d6bGULW0P6KqcxSkv3ZU5Wn2wQA19oB71o7+55vQ9ogFe2MMeNbK+jc9rrKVy280DnHO5JLMWOQ==",
       "dependencies": [
@@ -129,12 +126,12 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@cliffy/ansi@^1.0.0-rc.7",
       "jsr:@cliffy/command@^1.0.0-rc.7",
       "jsr:@std/assert@1",
       "jsr:@std/dotenv@~0.225.3",
       "jsr:@std/yaml@^1.0.5",
       "npm:@json-types/compose@0.8",
-      "npm:chalk@^5.4.1",
       "npm:docker-compose@^1.1.0"
     ]
   }

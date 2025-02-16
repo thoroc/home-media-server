@@ -1,5 +1,5 @@
+import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import 'jsr:@std/dotenv/load';
-import chalk from 'npm:chalk';
 import { getCompose, mkdir } from '../../helpers/mod.ts';
 
 export const setupDir = async (apps: string[]) => {
@@ -7,7 +7,9 @@ export const setupDir = async (apps: string[]) => {
     const compose = getCompose(`services/${app}/docker-compose.yml`);
 
     if (!compose) {
-      console.error(chalk.redBright(`Compose file not found for app "${app}"`));
+      console.error(
+        colors.brightRed(`Compose file not found for app "${app}"`)
+      );
       Deno.exit(1);
     }
 

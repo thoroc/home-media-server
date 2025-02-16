@@ -3,8 +3,8 @@ import {
   DefinitionsInclude,
   PropertiesServices,
 } from '@json-types/compose';
+import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import { parse } from 'jsr:@std/yaml';
-import chalk from 'npm:chalk';
 import * as dc from 'npm:docker-compose';
 import { DOCKER_COMPOSE_FILE } from '../constants.ts';
 
@@ -20,7 +20,7 @@ export const getCompose = (filePath?: string): Compose => {
     const dockerComposeFile = filePath || DOCKER_COMPOSE_FILE;
     // console.debug(
     //   'Get docker compose config from',
-    //   chalk.yellow(dockerComposeFile)
+    //   colors.yellow(dockerComposeFile)
     // );
     const data = Deno.readTextFileSync(dockerComposeFile);
     return parse(data) as Compose;
@@ -48,7 +48,7 @@ export const getServices = (
   const services = compose.services as PropertiesServices;
 
   // if (!services) {
-  //   console.warn(chalk.bgRedBright(`No services found in ${filePath}`));
+  //   console.warn(colors.bgBrightRed(`No services found in ${filePath}`));
   // }
 
   return services;
@@ -63,7 +63,9 @@ export const getServices = (
  * @param {string} [filePath] - The optional path to the Docker Compose file. If not provided, a default path will be used.
  * @returns {string[]} An array of service names included in the Docker Compose file.
  */
-export const getIncludedServices = (filePath?: string): PropertiesServices => {
+export const getIncludedServices = (
+  filePath?: string
+): PropertiesServices | undefined => {
   const services = getServices(filePath);
 
   const compose = getCompose(filePath);
@@ -128,7 +130,7 @@ export const checkRunningServices = async () => {
 
     for (const port of ports) {
       console.log(
-        `> ${chalk.yellow(servicesName)} (${chalk.cyan(
+        `> ${colors.yellow(servicesName)} (${colors.cyan(
           state
         )}) - http://localhost:${port}`
       );

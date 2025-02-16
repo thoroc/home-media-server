@@ -1,6 +1,6 @@
+import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import 'jsr:@std/dotenv/load';
 import { exists } from 'jsr:@std/fs';
-import chalk from 'npm:chalk';
 
 interface MkdirOptions {
   allowed_dir: string[];
@@ -14,7 +14,7 @@ export const mkdir = async (
 
   try {
     if (await exists(currentPath)) {
-      console.log(`Directory "${chalk.yellow(currentPath)}" already exists.`);
+      console.log(`Directory "${colors.yellow(currentPath)}" already exists.`);
     } else {
       if (options?.allowed_dir) {
         const allowed = options.allowed_dir.some((dir) =>
@@ -22,14 +22,16 @@ export const mkdir = async (
         );
         if (!allowed) {
           console.error(
-            chalk.redBright(
+            colors.brightRed(
               `Creating directory "${currentPath}" is not allowed.`
             )
           );
           return;
         }
       }
-      console.log(`Creating volume directory "${chalk.green(currentPath)}"...`);
+      console.log(
+        `Creating volume directory "${colors.green(currentPath)}"...`
+      );
       await Deno.mkdir(currentPath, { recursive: true });
     }
   } catch (error) {

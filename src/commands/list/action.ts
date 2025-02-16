@@ -1,4 +1,4 @@
-import chalk from 'npm:chalk';
+import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import {
   getIncludedServices,
   getRunningServices,
@@ -15,9 +15,25 @@ export const listAction = async (options: ListOptions) => {
   const runningServices = await getRunningServices();
 
   for (const service of runningServices) {
-    console.log(
-      `> ${chalk.yellow(service.name)} - ${chalk.green(service.state)}`
+    const serviceName = service.name;
+    const serviceState = service.state;
+
+    const exposedPorts = service.ports
+      .filter(
+        (port) =>
+          port.mapped?.address === '0.0.0.0' && port.exposed?.protocol === 'tcp'
+      )
+      .map((port) => port.exposed.port);
+
+    const localAddresses = exposedPorts.map(
+      (port) => `http://localhost:${port}`
     );
+
+    const message = `> ${colors.yellow(serviceName)} - ${colors.green(
+      serviceState
+    )}${exposedPorts ? ` - ${localAddresses.join(', ')}` : ''}`;
+
+    console.log(message);
   }
 
   if (options.all) {
@@ -34,7 +50,7 @@ export const listAction = async (options: ListOptions) => {
         // console.table(missingServices);
         for (const service of missingServices) {
           console.log(
-            `> ${chalk.yellow(service)} - run this service with ${chalk.cyan(
+            `> ${colors.yellow(service)} - run this service with ${colors.cyan(
               `deno task cli start -a ${service}`
             )}`
           );
