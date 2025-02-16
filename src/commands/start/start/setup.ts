@@ -18,18 +18,20 @@ export const setupDir = async (apps: string[]) => {
       [];
 
     const ALLOWED_VOLUME_PATHS = [
-      '/Users',
+      Deno.env.get('HOME') || '',
       Deno.env.get('HMS_DIR') || '',
+      Deno.cwd(),
     ].filter(Boolean);
+
+    const customPath = Deno.env.get('HMS_DIR') || '';
 
     for (const volume of volumes) {
       if (typeof volume === 'string') {
         const volumePath = volume.split(':')[0];
 
-        const cleanPath = volumePath.replace(
-          '${HMS_DIR}',
-          Deno.env.get('HMS_DIR') || ''
-        );
+        const cleanPath = customPath.includes('${HMS_DIR}')
+          ? volumePath.replace('${HMS_DIR}', Deno.env.get('HMS_DIR') || '')
+          : volumePath;
 
         await mkdir(cleanPath, { allowed_dir: ALLOWED_VOLUME_PATHS });
       }

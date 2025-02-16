@@ -94,3 +94,4 @@ Commands:
 - <https://docs.techdox.nz/>
 - <https://thehomelab.wiki/>
 - <https://home-automation-india.github.io/>
+- <https://geek-cookbook.funkypenguin.co.nz/>
