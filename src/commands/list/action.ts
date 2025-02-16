@@ -23,21 +23,24 @@ export const listAction = async (options: ListOptions) => {
   if (options.all) {
     const runningServiceNames = runningServices.map((service) => service.name);
     const availableServices = recursive ? getIncludedServices() : getServices();
-    const missingServices = Object.keys(availableServices).filter(
-      (service) => !runningServiceNames.includes(service)
-    );
 
-    if (missingServices.length > 0) {
-      console.log('available services:');
-      // console.table(missingServices);
-      for (const service of missingServices) {
-        console.log(
-          `> ${chalk.yellow(service)} - run this service with ${chalk.cyan(
-            `deno task cli start -a ${service}`
-          )}`
-        );
+    if (availableServices) {
+      const missingServices = Object.keys(availableServices).filter(
+        (service) => !runningServiceNames.includes(service)
+      );
+
+      if (missingServices.length > 0) {
+        console.log('available services:');
+        // console.table(missingServices);
+        for (const service of missingServices) {
+          console.log(
+            `> ${chalk.yellow(service)} - run this service with ${chalk.cyan(
+              `deno task cli start -a ${service}`
+            )}`
+          );
+        }
+        return;
       }
-      return;
     }
   }
 };

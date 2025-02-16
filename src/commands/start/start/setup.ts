@@ -4,7 +4,7 @@ import { getCompose, mkdir } from '../../helpers/mod.ts';
 
 export const setupDir = async (apps: string[]) => {
   for (const app of apps) {
-    const compose = getCompose(`services/${app}.yml`);
+    const compose = getCompose(`services/${app}/docker-compose.yml`);
 
     if (!compose) {
       console.error(chalk.redBright(`Compose file not found for app "${app}"`));

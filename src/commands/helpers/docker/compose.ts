@@ -41,7 +41,9 @@ export const getCompose = (filePath?: string): Compose => {
  * and returns the names of the services as an array of strings. If no services are found, an error message
  * is logged to the console.
  */
-export const getServices = (filePath?: string): PropertiesServices => {
+export const getServices = (
+  filePath?: string
+): PropertiesServices | undefined => {
   const compose = getCompose(filePath);
   const services = compose.services as PropertiesServices;
 
