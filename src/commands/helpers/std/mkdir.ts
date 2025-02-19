@@ -9,7 +9,7 @@ interface MkdirOptions {
 export const mkdir = async (
   path: string,
   options?: MkdirOptions
-): Promise<void> => {
+): Promise<string | void> => {
   const currentPath = path.replace('${HMS_DIR}', Deno.env.get('HMS_DIR') || '');
 
   try {
@@ -34,6 +34,7 @@ export const mkdir = async (
       );
       await Deno.mkdir(currentPath, { recursive: true });
     }
+    return currentPath;
   } catch (error) {
     if (error instanceof Deno.errors.AlreadyExists) {
       console.log(`Directory "${currentPath}" already exists.`);
