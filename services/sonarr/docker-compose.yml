@@ -2,11 +2,14 @@ services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest 
     container_name: sonarr
-    hostname: sonarr
+    hostname: sonarr.lan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.lan`)
     networks:
       - high-seas
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

@@ -4,7 +4,7 @@ import { getIncludedServices, getRunningServices } from '../mod.ts';
 
 export const appsCheckbox = async (
   actionName: string,
-  running?: boolean
+  running?: boolean,
 ): Promise<string[]> => {
   const services = running
     ? (await getRunningServices()).map((service) => service.name)

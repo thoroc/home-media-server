@@ -6,7 +6,7 @@ services:
     networks: 
       - high-seas 
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

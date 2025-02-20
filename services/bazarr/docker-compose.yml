@@ -2,11 +2,14 @@ services:
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
-    hostname: bazarr
+    hostname: bazarr.lan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bazaar.rule=Host(`bazaar.lan`)
     networks:
       - high-seas
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

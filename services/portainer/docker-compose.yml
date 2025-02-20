@@ -5,7 +5,7 @@ services:
     networks:
       - high-seas
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - TZ=${TZ}
     ports:

@@ -1,5 +1,6 @@
 include:
   - services/bazarr/docker-compose.yml
+  - services/coredns/docker-compose.yml
   - services/homarr/docker-compose.yml
   - services/lidarr/docker-compose.yml
   - services/plex/docker-compose.yml
@@ -9,9 +10,13 @@ include:
   - services/radarr/docker-compose.yml
   - services/sonarr/docker-compose.yml
   - services/tautulli/docker-compose.yml
+  - services/traefik/docker-compose.yml
   - services/watchtower/docker-compose.yml
 
 
 networks: 
   high-seas: 
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.1/24

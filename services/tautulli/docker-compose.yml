@@ -2,11 +2,14 @@ services:
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
-    hostname: tautulli
+    hostname: tautulli.lan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.lan`)
     networks:
       - high-seas
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

@@ -11,5 +11,20 @@
     "@std/dotenv": "jsr:@std/dotenv@^0.225.3",
     "@std/yaml": "jsr:@std/yaml@^1.0.5",
     "docker-compose": "npm:docker-compose@^1.1.0"
+  },
+  "lint": {
+    "include": ["src/"],
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "include": ["src/", "main.ts"]
   }
 }

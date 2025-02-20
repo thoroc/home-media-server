@@ -2,11 +2,14 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest 
     container_name: prowlarr
-    hostname: prowlarr
+    hostname: prowlarr.lan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.lan`)
     networks: 
       - high-seas 
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}

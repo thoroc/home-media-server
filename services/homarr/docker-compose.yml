@@ -2,11 +2,14 @@ services:
   homarr:
     image: ghcr.io/homarr-labs/homarr:latest
     container_name: homarr
-    hostname: homarr
+    hostname: homarr.lan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homarr.rule=Host(`homarr.lan`)
     networks: 
       - high-seas 
     env_file:
-      - ../.env
+      - ../../.env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
