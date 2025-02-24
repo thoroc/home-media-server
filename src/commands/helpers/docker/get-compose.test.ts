@@ -2,7 +2,7 @@ import { assertEquals } from '@std/assert/equals';
 import { describe, it } from 'jsr:@std/testing/bdd';
 import { returnsNext, stub } from 'jsr:@std/testing/mock';
 import * as stdYaml from 'jsr:@std/yaml';
-import { getCompose } from './compose.ts';
+import { getCompose } from './get-compose.ts';
 
 describe('geCompose', () => {
   it('should return the parsed Docker Compose configuration', () => {
