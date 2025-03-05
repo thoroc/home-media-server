@@ -8,7 +8,7 @@ interface MkdirOptions {
 
 export const mkdir = async (
   path: string,
-  options?: MkdirOptions
+  options?: MkdirOptions,
 ): Promise<string | void> => {
   const currentPath = path.replace('${HMS_DIR}', Deno.env.get('HMS_DIR') || '');
 
@@ -23,14 +23,14 @@ export const mkdir = async (
         if (!allowed) {
           console.error(
             colors.brightRed(
-              `Creating directory "${currentPath}" is not allowed.`
-            )
+              `Creating directory "${currentPath}" is not allowed.`,
+            ),
           );
           return;
         }
       }
       console.log(
-        `Creating volume directory "${colors.green(currentPath)}"...`
+        `Creating volume directory "${colors.green(currentPath)}"...`,
       );
       await Deno.mkdir(currentPath, { recursive: true });
     }

@@ -1,6 +1,12 @@
 import { DefinitionsInclude, PropertiesServices } from '@json-types/compose';
+import { log } from '../logger.ts';
+import { GlobalOptions } from '../types.ts';
 import { getCompose } from './get-compose.ts';
 import { getServices } from './get-services.ts';
+
+interface GetIncludedServicesOptions extends GlobalOptions {
+  filePath?: string;
+}
 
 /**
  * Retrieves the included services from a Docker Compose file.
@@ -12,11 +18,15 @@ import { getServices } from './get-services.ts';
  * @returns {string[]} An array of service names included in the Docker Compose file.
  */
 export const getIncludedServices = (
-  filePath?: string,
+  options?: GetIncludedServicesOptions,
 ): PropertiesServices | undefined => {
-  const services = getServices(filePath);
+  const services = getServices(options);
+  const compose = getCompose(options);
 
-  const compose = getCompose(filePath);
+  if (options?.verbose) {
+    log.trace(`services: ${services}`);
+    log.trace(`compose: ${compose}`);
+  }
 
   const include = compose.include as DefinitionsInclude;
 
@@ -25,7 +35,10 @@ export const getIncludedServices = (
       .toString()
       .split(',')
       .reduce((acc, includeFilePath) => {
-        return { ...acc, ...getServices(includeFilePath) };
+        return {
+          ...acc,
+          ...getServices({ ...options, filePath: includeFilePath }),
+        };
       }, {});
 
     return { ...services, ...includedServices };

@@ -13,7 +13,10 @@
     "docker-compose": "npm:docker-compose@^1.1.0"
   },
   "lint": {
-    "include": ["src/"],
+    "include": [
+      "src/",
+      "hms.ts",
+    ],
     "rules": {
       "tags": ["recommended"]
     }
@@ -25,6 +28,9 @@
     "semiColons": true,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "include": ["src/", "main.ts"]
+    "include": [
+      "src/",
+      "hms.ts",
+    ]
   }
 }

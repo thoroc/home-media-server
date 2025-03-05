@@ -13,6 +13,7 @@ if (import.meta.main) {
     .name('hms-victor')
     .version('0.1.5')
     .description('CLI to manage Home Media Server (HMS) services.')
+    .option('-v, --verbose', 'Enable verbose output.', { global: true })
     .command('list', listCommand)
     .command('start', startCommand)
     .command('stop', stopCommand)

@@ -27,11 +27,24 @@
     "source.organizeImports": "always",
   },
   "[typescript]": {
-      "editor.defaultFormatter": "denoland.vscode-deno"
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[javascript]": {
-      "editor.defaultFormatter": "denoland.vscode-deno"
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "deno.enable": true,
   "deno.config": "./deno.jsonc",
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/Users/thomas.roche/.local/share/mise/shims/node"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "deno.path": "/Users/thomas.roche/.local/share/mise/shims/deno",
 }

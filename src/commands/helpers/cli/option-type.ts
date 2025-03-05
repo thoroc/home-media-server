@@ -12,9 +12,11 @@ export class AppType extends Type<string> {
   public parse({ label, name, value }: ArgumentValue): string {
     if (!this.apps.includes(value)) {
       throw new ValidationError(
-        `${label} "${name}" must be a valid app, but got "${value}". Possible values are: ${this.apps.join(
-          ', '
-        )}`
+        `${label} "${name}" must be a valid app, but got "${value}". Possible values are: ${
+          this.apps.join(
+            ', ',
+          )
+        }`,
       );
     }
 

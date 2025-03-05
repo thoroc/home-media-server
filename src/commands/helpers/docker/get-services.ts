@@ -1,6 +1,12 @@
 import { PropertiesServices } from '@json-types/compose';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
+import { log } from '../logger.ts';
+import { GlobalOptions } from '../types.ts';
 import { getCompose } from './get-compose.ts';
+
+interface GetServicesOptions extends GlobalOptions {
+  filePath?: string;
+}
 
 /**
  * Retrieves the services defined in a Docker Compose file.
@@ -14,13 +20,22 @@ import { getCompose } from './get-compose.ts';
  * is logged to the console.
  */
 export const getServices = (
-  filePath?: string,
+  options?: GetServicesOptions,
 ): PropertiesServices | undefined => {
-  const compose = getCompose(filePath);
+  const compose = getCompose(options);
   const services = compose.services as PropertiesServices;
 
+  if (options?.verbose) {
+    log.trace(`compose: ${colors.cyan(JSON.stringify(compose, null, 2))}`);
+    log.trace('services:', colors.cyan(services?.toString() || 'none'));
+  }
+
   if (!services) {
-    console.warn(colors.bgBrightRed(`No services found in ${filePath}`));
+    console.warn(
+      colors.bgBrightRed(
+        `No services found in ${options?.filePath || 'docker-compose.yml'}`,
+      ),
+    );
   }
 
   return services;

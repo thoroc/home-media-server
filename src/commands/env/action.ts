@@ -7,7 +7,7 @@ import { getDefaultEnvVars } from '../helpers/mod.ts';
 const promptForEnvVar = async (
   name: string,
   defaultValue: string,
-  yes?: boolean
+  yes?: boolean,
 ) => {
   let response: string = 'n';
 

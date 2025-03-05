@@ -10,7 +10,7 @@ const envCommand = new Command()
   .option(
     '-o, --output-file <outputFile:string>',
     'output the environment variables to a file',
-    { default: '.env' }
+    { default: '.env' },
   )
   .action(envAction);
 

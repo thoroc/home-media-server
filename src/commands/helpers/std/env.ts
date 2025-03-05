@@ -1,4 +1,7 @@
-interface EnvOptions {
+import { log } from '../logger.ts';
+import { GlobalOptions } from '../types.ts';
+
+interface EnvOptions extends GlobalOptions {
   envFile?: string;
 }
 
@@ -22,7 +25,7 @@ interface EnvOptions {
  * ```
  */
 export const getDefaultEnvVars = async (
-  options?: EnvOptions
+  options?: EnvOptions,
 ): Promise<Record<string, string>> => {
   const envFile = options?.envFile ?? '.env.dist';
   const envDist = await Deno.readTextFile(envFile);
@@ -33,6 +36,10 @@ export const getDefaultEnvVars = async (
       const [name, defaultValue] = line.split('='); // split by the equal sign
       return { name, default: defaultValue };
     });
+
+  if (options?.verbose) {
+    log.trace('environment variables:', ENV_VARS_DIST);
+  }
 
   // return an object with the environment variable names as keys and their default values as values
   return ENV_VARS_DIST.reduce((acc: Record<string, string>, envVar) => {

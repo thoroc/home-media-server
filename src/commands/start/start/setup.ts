@@ -8,15 +8,14 @@ export const setupDir = async (apps: string[]) => {
 
     if (!compose) {
       console.error(
-        colors.brightRed(`Compose file not found for app "${app}"`)
+        colors.brightRed(`Compose file not found for app "${app}"`),
       );
       Deno.exit(1);
     }
 
-    const volumes =
-      (compose.services &&
-        compose.services[app] &&
-        compose.services[app].volumes) ||
+    const volumes = (compose.services &&
+      compose.services[app] &&
+      compose.services[app].volumes) ||
       [];
 
     const ALLOWED_VOLUME_PATHS = [
