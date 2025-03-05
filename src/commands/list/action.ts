@@ -58,9 +58,14 @@ export const listAction = async (options: ListOptions) => {
       );
     }
 
-    const availableServices = recursive
-      ? getIncludedServices(options)
-      : getServices(options);
+    let availableServices = getServices(options);
+
+    if (recursive) {
+      availableServices = {
+        ...availableServices,
+        ...getIncludedServices(options),
+      };
+    }
 
     if (options.verbose) {
       log.trace(

@@ -20,28 +20,25 @@ interface GetIncludedServicesOptions extends GlobalOptions {
 export const getIncludedServices = (
   options?: GetIncludedServicesOptions,
 ): PropertiesServices | undefined => {
-  const services = getServices(options);
   const compose = getCompose(options);
 
   if (options?.verbose) {
-    log.trace(`services: ${services}`);
     log.trace(`compose: ${compose}`);
   }
 
   const include = compose.include as DefinitionsInclude;
+  let services: PropertiesServices = {};
 
   if (include) {
-    const includedServices = include
+    services = include
       .toString()
       .split(',')
-      .reduce((acc, includeFilePath) => {
+      .reduce((acc, filePath) => {
         return {
           ...acc,
-          ...getServices({ ...options, filePath: includeFilePath }),
+          ...getServices({ ...options, filePath }),
         };
       }, {});
-
-    return { ...services, ...includedServices };
   }
 
   return services;
