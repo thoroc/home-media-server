@@ -6,7 +6,9 @@ export class AppType extends Type<string> {
 
   constructor() {
     super();
-    this.apps = Object.keys(getIncludedServices('docker-compose.yml'));
+    this.apps = Object.keys(
+      getIncludedServices() || {},
+    );
   }
 
   public parse({ label, name, value }: ArgumentValue): string {

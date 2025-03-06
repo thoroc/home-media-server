@@ -1,10 +1,23 @@
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import 'jsr:@std/dotenv/load';
+import { DOCKER_COMPOSE_FILE } from '../../helpers/constants.ts';
 import { getCompose, mkdir } from '../../helpers/mod.ts';
+import { GlobalOptions } from '../../helpers/types.ts';
 
-export const setupDir = async (apps: string[]) => {
+interface SetupDirOptions extends GlobalOptions {
+  dcFile?: string;
+}
+
+export const setupDir = async (apps: string[], options?: SetupDirOptions) => {
   for (const app of apps) {
-    const compose = getCompose(`services/${app}/docker-compose.yml`);
+    if (options?.verbose) {
+      console.log(`Setting up directories for app "${colors.yellow(app)}"...`);
+    }
+
+    const compose = getCompose({
+      dcFile: `services/${app}/${options?.dcFile ?? DOCKER_COMPOSE_FILE}`,
+      ...options,
+    });
 
     if (!compose) {
       console.error(
@@ -33,6 +46,10 @@ export const setupDir = async (apps: string[]) => {
         const cleanPath = customPath.includes('${HMS_DIR}')
           ? volumePath.replace('${HMS_DIR}', Deno.env.get('HMS_DIR') || '')
           : volumePath;
+
+        if (options?.verbose) {
+          console.log(`Creating directory: ${colors.yellow(cleanPath)}`);
+        }
 
         await mkdir(cleanPath, { allowed_dir: ALLOWED_VOLUME_PATHS });
       }

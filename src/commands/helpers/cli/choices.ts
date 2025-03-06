@@ -1,16 +1,22 @@
 import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7';
 import { DOCKER_COMPOSE_FILE } from '../constants.ts';
-import { getIncludedServices, getRunningServices } from '../mod.ts';
+import { getIncludedServices } from '../docker/get-included-services.ts';
+import { getRunningServices } from '../docker/get-running-services.ts';
+import { GlobalOptions } from '../types.ts';
+
+interface AppCheckboxOptions extends GlobalOptions {
+  running?: boolean;
+}
 
 export const appsCheckbox = async (
   actionName: string,
-  running?: boolean,
+  options?: AppCheckboxOptions,
 ): Promise<string[]> => {
-  const services = running
+  const services = options?.running
     ? (await getRunningServices()).map((service) => service.name)
-    : Object.keys(getIncludedServices(DOCKER_COMPOSE_FILE));
+    : Object.keys(getIncludedServices({ dcFile: DOCKER_COMPOSE_FILE }) || {});
 
-  const options = services.map((service) => ({
+  const available = services.map((service) => ({
     name: service,
     value: service,
   }));
@@ -22,6 +28,6 @@ export const appsCheckbox = async (
 
   return await Checkbox.prompt({
     message: `Pick the apps to ${actionName}`,
-    options,
+    options: available,
   });
 };

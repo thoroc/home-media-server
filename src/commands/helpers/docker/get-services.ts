@@ -1,17 +1,20 @@
 import { PropertiesServices } from '@json-types/compose';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
+import { DOCKER_COMPOSE_FILE } from '../constants.ts';
 import { log } from '../logger.ts';
 import { GlobalOptions } from '../types.ts';
 import { getCompose } from './get-compose.ts';
 
 interface GetServicesOptions extends GlobalOptions {
-  filePath?: string;
+  dcFile?: string;
 }
 
 /**
  * Retrieves the services defined in a Docker Compose file.
  *
- * @param {string} [filePath] - The optional path to the Docker Compose file. If not provided, a default path will be used.
+ * @param {GetServicesOptions} [options] - The options object.
+ * @param {string} [options.filePath] - The optional path to the Docker Compose file. If not provided, a default path will be used.
+ * @param {boolean} [options.verbose] - The optional flag to enable verbose logging.
  * @returns {string[]} An array of service names defined in the Docker Compose file.
  *
  * @remarks
@@ -32,8 +35,8 @@ export const getServices = (
 
   if (!services) {
     console.warn(
-      colors.bgBrightRed(
-        `No services found in ${options?.filePath || 'docker-compose.yml'}`,
+      colors.bgBrightMagenta(
+        `> No services found in ${options?.dcFile || DOCKER_COMPOSE_FILE}`,
       ),
     );
   }

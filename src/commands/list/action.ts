@@ -86,7 +86,7 @@ export const listAction = async (options: ListOptions) => {
           console.log(
             `> ${colors.yellow(service)} - run this service with ${
               colors.cyan(
-                `deno task cli start -a ${service}`,
+                `./hms.ts start -a ${service}`,
               )
             }`,
           );

@@ -5,7 +5,7 @@ import { getCompose } from './get-compose.ts';
 import { getServices } from './get-services.ts';
 
 interface GetIncludedServicesOptions extends GlobalOptions {
-  filePath?: string;
+  dcFile?: string;
 }
 
 /**
@@ -14,7 +14,9 @@ interface GetIncludedServicesOptions extends GlobalOptions {
  * This function reads a Docker Compose file, extracts the `include` section,
  * and processes each included file to gather the services defined within them.
  *
- * @param {string} [filePath] - The optional path to the Docker Compose file. If not provided, a default path will be used.
+ * @param {GetIncludedServicesOptions} [options] - The options object.
+ * @param {string} [options.dcFile] - The optional path to the Docker Compose file. If not provided, a default path will be used.
+ * @param {boolean} [options.verbose] - The optional flag to enable verbose logging.
  * @returns {string[]} An array of service names included in the Docker Compose file.
  */
 export const getIncludedServices = (
@@ -33,10 +35,10 @@ export const getIncludedServices = (
     services = include
       .toString()
       .split(',')
-      .reduce((acc, filePath) => {
+      .reduce((acc, dcFile) => {
         return {
           ...acc,
-          ...getServices({ ...options, filePath }),
+          ...getServices({ ...options, dcFile }),
         };
       }, {});
   }

@@ -6,19 +6,23 @@ import { log } from '../logger.ts';
 import { GlobalOptions } from '../types.ts';
 
 interface GetComposeOptions extends GlobalOptions {
-  filePath?: string;
+  dcFile?: string;
 }
 
 /**
  * Retrieves and parses a Docker Compose configuration file.
  *
- * @param {string} [filePath] - Optional path to the Docker Compose file. If not provided, defaults to `DOCKER_COMPOSE_FILE`.
+ * @param {GetComposeOptions} [options] - Optional configuration options.
+ * @param {string} [options.dcFile] - Optional Docker Compose file. If not provided, defaults to `DOCKER_COMPOSE_FILE`.
+ * @param {boolean} [options.verbose] - Optional flag to enable verbose logging.
  * @returns {Compose} The parsed Docker Compose configuration.
  * @throws Will throw an error if the file cannot be read or parsed.
  */
-export const getCompose = (options?: GetComposeOptions): Compose => {
+export const getCompose = (
+  options?: GetComposeOptions,
+): Compose => {
   try {
-    const dockerComposeFile = options?.filePath || DOCKER_COMPOSE_FILE;
+    const dockerComposeFile = options?.dcFile || DOCKER_COMPOSE_FILE;
 
     if (options?.verbose) {
       log.trace(
