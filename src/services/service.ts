@@ -8,6 +8,7 @@ import * as yaml from 'jsr:@std/yaml';
 interface ServiceOptions {
   rootDir?: string;
   fileName?: string;
+  compose?: {};
 }
 
 export class Service {

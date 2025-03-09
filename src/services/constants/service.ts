@@ -1,10 +1,15 @@
-export const ENVIRONMENT_PUID = 'PUID';
-export const ENVIRONMENT_PGID = 'PGID';
-export const ENVIRONMENT_TIMEZONE = 'TZ';
+export const ENVIRONMENT_VARIABLES = {
+  PUID: 'PUID',
+  PGID: 'PGID',
+  TIMEZONE: 'TZ',
+} as const;
+export type EnvironmentVariableType =
+  typeof ENVIRONMENT_VARIABLES[keyof typeof ENVIRONMENT_VARIABLES];
+
 export const DEFAULT_ENVIRONMENT_VARIABLES = [
-  `${ENVIRONMENT_PUID}=${ENVIRONMENT_PUID}`,
-  `${ENVIRONMENT_PGID}=${ENVIRONMENT_PUID}`,
-  `${ENVIRONMENT_TIMEZONE}=${ENVIRONMENT_PUID}`,
+  `${ENVIRONMENT_VARIABLES.PUID}=\${${ENVIRONMENT_VARIABLES.PUID}}`,
+  `${ENVIRONMENT_VARIABLES.PGID}=\${${ENVIRONMENT_VARIABLES.PGID}}`,
+  `${ENVIRONMENT_VARIABLES.TIMEZONE}=\${${ENVIRONMENT_VARIABLES.TIMEZONE}}`,
 ] as const;
 
 export const RESTART_POLICY = {
@@ -15,3 +20,5 @@ export const RESTART_POLICY = {
 } as const;
 export type RestartPolicyType =
   typeof RESTART_POLICY[keyof typeof RESTART_POLICY];
+
+export const NETWORK_NAME = 'high-seas';

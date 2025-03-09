@@ -1,13 +1,15 @@
 import {
-  BAZARR_IMAGE,
-  BAZARR_NAME,
-  BAZARR_PORTS,
-  BAZARR_VOLUMES,
+  LIDARR_IMAGE,
+  LIDARR_NAME,
+  LIDARR_PORTS,
+  LIDARR_VOLUMES,
+  Service,
+} from '@scope/services';
+import {
   DEFAULT_ENVIRONMENT_VARIABLES,
   NETWORK_NAME,
   RESTART_POLICY,
-  Service,
-} from '@scope/services';
+} from '../../../services/mod.ts';
 import {
   getContainerNamePrompt,
   getEnvFilePrompt,
@@ -22,25 +24,25 @@ import {
   getVolumesPrompt,
 } from '../../helpers/prompt/mod.ts';
 
-export const bazarrService = async () => {
-  console.log('Initializing Bazarr...');
+export const lidarrService = async () => {
+  console.log('Initializing Lidarr...');
 
-  const serviceName = await getServiceNamePrompt(BAZARR_NAME);
-  const image = await getImagePrompt(BAZARR_IMAGE);
-  const containerName = await getContainerNamePrompt(BAZARR_NAME);
-  const hostname = await getHostnamePrompt(`${BAZARR_NAME}.lan`);
+  const serviceName = await getServiceNamePrompt(LIDARR_NAME);
+  const image = await getImagePrompt(LIDARR_IMAGE);
+  const containerName = await getContainerNamePrompt(LIDARR_NAME);
+  const hostname = await getHostnamePrompt(`${LIDARR_NAME}.lan`);
   const labels = await getLabelsPrompt([
     'traefik.enable=true',
-    'traefik.http.routers.bazarr.rule=Host(`bazarr.lan`)',
-    'traefik.http.services.bazarr.loadbalancer.server.port=6767',
+    `traefik.http.routers.${LIDARR_NAME}.rule=Host(\`${LIDARR_NAME}.lan\`)`,
+    `traefik.http.services.${LIDARR_NAME}.loadbalancer.server.port=8686`,
   ]);
   const network = await getNetworksPrompt([NETWORK_NAME]);
   const envFile = await getEnvFilePrompt('../../.env');
   const environmentVaiables = await getEnvironmentVariablesPrompt(
     [...DEFAULT_ENVIRONMENT_VARIABLES],
   );
-  const ports = await getPortsPrompt(BAZARR_PORTS);
-  const volumes = await getVolumesPrompt(BAZARR_VOLUMES);
+  const ports = await getPortsPrompt(LIDARR_PORTS);
+  const volumes = await getVolumesPrompt(LIDARR_VOLUMES);
   const restartPolicy = await getRestartPolicyPrompt(
     RESTART_POLICY.UNLESS_STOPPED,
   );
