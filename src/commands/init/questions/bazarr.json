@@ -18,6 +18,7 @@
     "type": "string"
   },
   {
+    "default": false,
     "message": "Do you want to add any environment variables?",
     "name": "environment",
     "type": "confirm"

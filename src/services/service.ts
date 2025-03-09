@@ -1,4 +1,9 @@
-import { type Compose, DefinitionsService } from '@json-types/compose';
+import {
+  type Compose,
+  DefinitionsService,
+  ListOrDict,
+} from '@json-types/compose';
+import * as yaml from 'jsr:@std/yaml';
 
 interface ServiceOptions {
   rootDir?: string;
@@ -21,7 +26,7 @@ export class Service {
         [serviceName]: {} as unknown as DefinitionsService,
       },
     };
-    this.rootDir = options?.rootDir || Deno.cwd();
+    this.rootDir = options?.rootDir || `${Deno.cwd()}/services`;
     this.fileName = options?.fileName || `docker-compose.yml`;
   }
 
@@ -64,7 +69,7 @@ export class Service {
     return this;
   }
 
-  public setLabels(labels: Record<string, string>): Service {
+  public setLabels(labels: ListOrDict): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
@@ -97,12 +102,13 @@ export class Service {
     return this;
   }
 
-  public setEnvironment(environment: Record<string, string>): Service {
+  public setEnvironmentVariables(environmentVariables: ListOrDict): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
     ) {
-      this._dockerCompose.services[this.serviceName].environment = environment;
+      this._dockerCompose.services[this.serviceName].environment =
+        environmentVariables;
     }
 
     return this;
@@ -130,7 +136,7 @@ export class Service {
     return this;
   }
 
-  public setRestart(restart: string): Service {
+  public setRestartPolicy(restart: string): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
@@ -145,7 +151,7 @@ export class Service {
     Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, { recursive: true });
     Deno.writeTextFileSync(
       `${this.rootDir}/${this.serviceName}/${this.fileName}`,
-      this._dockerCompose.toString() || '',
+      yaml.stringify(this._dockerCompose),
     );
   }
 }

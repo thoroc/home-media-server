@@ -14,6 +14,8 @@
     "jsr:@std/assert@1": "1.0.11",
     "jsr:@std/assert@^1.0.9": "1.0.11",
     "jsr:@std/assert@~1.0.6": "1.0.11",
+    "jsr:@std/bytes@^1.0.4": "1.0.5",
+    "jsr:@std/cbor@*": "0.1.6",
     "jsr:@std/dotenv@*": "0.225.3",
     "jsr:@std/dotenv@~0.225.3": "0.225.3",
     "jsr:@std/encoding@~1.0.5": "1.0.5",
@@ -25,6 +27,7 @@
     "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@std/path@~1.0.6": "1.0.8",
     "jsr:@std/streams@^1.0.7": "1.0.9",
+    "jsr:@std/streams@^1.0.8": "1.0.9",
     "jsr:@std/testing@*": "1.0.6",
     "jsr:@std/text@~1.0.7": "1.0.9",
     "jsr:@std/yaml@*": "1.0.5",
@@ -100,6 +103,16 @@
         "jsr:@std/internal"
       ]
     },
+    "@std/bytes@1.0.5": {
+      "integrity": "4465dd739d7963d964c809202ebea6d5c6b8e3829ef25c6a224290fbb8a1021e"
+    },
+    "@std/cbor@0.1.6": {
+      "integrity": "3fb6e082f4eb44fc0c8d042999471264d398e6abb96c791c4e41614f9f52df44",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/streams@^1.0.8"
+      ]
+    },
     "@std/dotenv@0.225.3": {
       "integrity": "a95e5b812c27b0854c52acbae215856d9cce9d4bbf774d938c51d212711e8d4a"
     },
@@ -124,7 +137,7 @@
     "@std/json@1.0.1": {
       "integrity": "1f0f70737e8827f9acca086282e903677bc1bb0c8ffcd1f21bca60039563049f",
       "dependencies": [
-        "jsr:@std/streams"
+        "jsr:@std/streams@^1.0.7"
       ]
     },
     "@std/path@1.0.8": {
