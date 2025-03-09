@@ -1,0 +1,25 @@
+[
+  {
+    "default": "lscr.io/linuxserver/bazarr:latest",
+    "message": "Enter Bazarr image:",
+    "name": "image",
+    "type": "string"
+  },
+  {
+    "default": "bazarr",
+    "message": "Enter container name:",
+    "name": "container_name",
+    "type": "string"
+  },
+  {
+    "default": "6767:6767",
+    "message": "Enter the ports you want to use (host:container)",
+    "name": "ports",
+    "type": "string"
+  },
+  {
+    "message": "Do you want to add any environment variables?",
+    "name": "environment",
+    "type": "confirm"
+  }
+]

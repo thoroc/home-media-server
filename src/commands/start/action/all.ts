@@ -1,6 +1,6 @@
+import { getIncludedServices } from '@scope/core';
 import 'jsr:@std/dotenv/load';
 import * as dc from 'npm:docker-compose';
-import { getIncludedServices } from '../../helpers/mod.ts';
 import { setupDir } from './setup.ts';
 
 interface StartAllOptions {
@@ -19,7 +19,7 @@ export const startAll = async (options?: StartAllOptions) => {
     console.log('Starting all applications...');
 
     const allServices = getIncludedServices();
-    await setupDir(Object.keys(allServices));
+    if (allServices) await setupDir(Object.keys(allServices));
 
     response = await dc.upAll(config);
   }

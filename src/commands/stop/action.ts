@@ -19,7 +19,7 @@ export const stopAction = async (options: StopOptions) => {
     if (interactive) {
       console.log('Starting interactive mode...');
 
-      const apps = await appsCheckbox('start', true);
+      const apps = await appsCheckbox('start', { running: true });
       response = await dc.downMany(apps, config);
 
       console.log(response.out);

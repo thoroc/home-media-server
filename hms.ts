@@ -2,6 +2,7 @@
 import { Command } from '@cliffy/command';
 import {
   envCommand,
+  initCommand,
   listCommand,
   startCommand,
   stopCommand,
@@ -18,5 +19,6 @@ if (import.meta.main) {
     .command('start', startCommand)
     .command('stop', stopCommand)
     .command('env', envCommand)
+    .command('init', initCommand)
     .parse(Deno.args);
 }

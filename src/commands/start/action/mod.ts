@@ -1,6 +1,8 @@
+import { checkRunningServices } from '@scope/core';
 import 'jsr:@std/dotenv/load';
-import { checkRunningServices } from '../helpers/mod.ts';
-import { startAll, startApp, startInteractive } from './start/mod.ts';
+import { startAll } from './all.ts';
+import { startApp } from './app.ts';
+import { startInteractive } from './interactive.ts';
 
 interface StartOptions {
   all?: boolean;

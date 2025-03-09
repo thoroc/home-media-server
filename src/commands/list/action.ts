@@ -1,10 +1,10 @@
-import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
-import { log } from '../helpers/logger.ts';
 import {
   getIncludedServices,
   getRunningServices,
   getServices,
-} from '../helpers/mod.ts';
+  log,
+} from '@scope/core';
+import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import { GlobalOptions } from '../helpers/types.ts';
 
 interface ListOptions extends GlobalOptions {

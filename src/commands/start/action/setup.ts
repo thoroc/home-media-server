@@ -1,7 +1,6 @@
+import { DOCKER_COMPOSE_FILE, getCompose, mkdir } from '@scope/core';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import 'jsr:@std/dotenv/load';
-import { DOCKER_COMPOSE_FILE } from '../../helpers/constants.ts';
-import { getCompose, mkdir } from '../../helpers/mod.ts';
 import { GlobalOptions } from '../../helpers/types.ts';
 
 interface SetupDirOptions extends GlobalOptions {

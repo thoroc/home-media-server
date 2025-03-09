@@ -1,8 +1,8 @@
+import { getDefaultEnvVars } from '@scope/core';
 import { Input } from 'jsr:@cliffy/prompt@1.0.0-rc.7';
 import { parse, stringify } from 'jsr:@std/dotenv';
 import 'jsr:@std/dotenv/load';
 import { exists } from 'jsr:@std/fs';
-import { getDefaultEnvVars } from '../helpers/mod.ts';
 
 const promptForEnvVar = async (
   name: string,

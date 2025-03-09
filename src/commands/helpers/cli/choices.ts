@@ -1,7 +1,9 @@
+import {
+  DOCKER_COMPOSE_FILE,
+  getIncludedServices,
+  getRunningServices,
+} from '@scope/core';
 import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7';
-import { DOCKER_COMPOSE_FILE } from '../constants.ts';
-import { getIncludedServices } from '../docker/get-included-services.ts';
-import { getRunningServices } from '../docker/get-running-services.ts';
 import { GlobalOptions } from '../types.ts';
 
 interface AppCheckboxOptions extends GlobalOptions {

@@ -16,9 +16,12 @@
     "include": [
       "src/",
       "hms.ts",
+      "hms.tsx"
     ],
     "rules": {
-      "tags": ["recommended"]
+      "tags": [
+        "recommended"
+      ]
     }
   },
   "fmt": {
@@ -31,6 +34,12 @@
     "include": [
       "src/",
       "hms.ts",
+      "hms.tsx"
     ]
-  }
+  },
+  "workspace": [
+    "src/commands",
+    "src/services",
+    "src/core"
+  ]
 }

@@ -1,5 +1,5 @@
 import { ArgumentValue, Type, ValidationError } from '@cliffy/command';
-import { getIncludedServices } from '../mod.ts';
+import { getIncludedServices } from '@scope/core';
 
 export class AppType extends Type<string> {
   public readonly apps: string[];

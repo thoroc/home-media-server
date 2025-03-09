@@ -1,9 +1,9 @@
 import { type Compose } from '@json-types/compose';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import { parse } from 'jsr:@std/yaml';
+import { GlobalOptions } from '../../commands/helpers/types.ts';
 import { DOCKER_COMPOSE_FILE } from '../constants.ts';
 import { log } from '../logger.ts';
-import { GlobalOptions } from '../types.ts';
 
 interface GetComposeOptions extends GlobalOptions {
   dcFile?: string;

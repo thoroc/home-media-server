@@ -1,6 +1,6 @@
 import { DefinitionsInclude, PropertiesServices } from '@json-types/compose';
+import { GlobalOptions } from '../../commands/helpers/types.ts';
 import { log } from '../logger.ts';
-import { GlobalOptions } from '../types.ts';
 import { getCompose } from './get-compose.ts';
 import { getServices } from './get-services.ts';
 

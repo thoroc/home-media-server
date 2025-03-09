@@ -1,5 +1,5 @@
+import { GlobalOptions } from '../../commands/helpers/types.ts';
 import { log } from '../logger.ts';
-import { GlobalOptions } from '../types.ts';
 
 interface EnvOptions extends GlobalOptions {
   envFile?: string;
