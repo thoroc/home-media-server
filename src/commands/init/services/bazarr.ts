@@ -1,4 +1,8 @@
-import { Service } from '@scope/services';
+import {
+  DEFAULT_ENVIRONMENT_VARIABLES,
+  RESTART_POLICY,
+  Service,
+} from '@scope/services';
 import {
   getContainerNamePrompt,
   getEnvFilePrompt,
@@ -27,17 +31,17 @@ export const bazarrService = async () => {
   ]);
   const network = await getNetworksPrompt(['high-seas']);
   const envFile = await getEnvFilePrompt('../../.env');
-  const environmentVaiables = await getEnvironmentVariablesPrompt([
-    'PUID=${PUID}',
-    'PGID=${PUID}',
-    'TZ=${TZ}',
-  ]);
+  const environmentVaiables = await getEnvironmentVariablesPrompt(
+    [...DEFAULT_ENVIRONMENT_VARIABLES],
+  );
   const ports = await getPortsPrompt(['6767:6767']);
   const volumes = await getVolumesPrompt([
     '${HMS_DIR}/apps/bazarr:/config',
     '${HMS_DIR}/data/media:/mnt/media',
   ]);
-  const restartPolicy = await getRestartPolicyPrompt('unless-stopped');
+  const restartPolicy = await getRestartPolicyPrompt(
+    RESTART_POLICY.UNLESS_STOPPED,
+  );
 
   const compose = new Service(serviceName)
     .setImage(image)
