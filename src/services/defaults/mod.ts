@@ -1,6 +1,7 @@
 export * from './bazarr.ts';
 export * from './lidarr.ts';
 export * from './prowlarr.ts';
+export * from './qbittorrent.ts';
 export * from './radarr.ts';
 export * from './sonarr.ts';
 export * from './tautulli.ts';

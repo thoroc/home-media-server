@@ -98,7 +98,7 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       this._dockerCompose.services[this.serviceName].labels =
-        transformObjectToArray(labels);
+        Array.isArray(labels) ? labels : transformObjectToArray(labels);
     }
 
     return this;
@@ -132,7 +132,9 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       this._dockerCompose.services[this.serviceName].environment =
-        transformObjectToArray(environmentVariables, Separator.EQUAL);
+        Array.isArray(environmentVariables)
+          ? environmentVariables
+          : transformObjectToArray(environmentVariables, Separator.EQUAL);
     }
 
     return this;
@@ -144,7 +146,7 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       this._dockerCompose.services[this.serviceName].ports =
-        transformObjectToArray(ports);
+        Array.isArray(ports) ? ports : transformObjectToArray(ports);
     }
 
     return this;
@@ -156,7 +158,7 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       this._dockerCompose.services[this.serviceName].volumes =
-        transformObjectToArray(volumes);
+        Array.isArray(volumes) ? volumes : transformObjectToArray(volumes);
     }
 
     return this;

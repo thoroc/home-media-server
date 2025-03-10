@@ -3,6 +3,7 @@ import {
   defaultBazarrService,
   defaultLidarrService,
   defaultProwlarrService,
+  defaultQbittorrentService,
   defaultRadarrService,
   defaultSonarrService,
   defaultTautulliService,
@@ -18,6 +19,7 @@ import {
   getSonarrService,
   getTautulliService,
 } from './services/mod.ts';
+import { getQbittorrentService } from './services/qbittorrent.ts';
 
 interface InitActionOptions {
   interactive?: boolean;
@@ -33,6 +35,7 @@ export const initAction = async (options: InitActionOptions) => {
     { name: 'sonarr', compose: defaultSonarrService },
     { name: 'prowlarr', compose: defaultProwlarrService },
     { name: 'tautulli', compose: defaultTautulliService },
+    { name: 'qbittorrent', compose: defaultQbittorrentService },
   ];
 
   if (options.interactive) {
@@ -61,16 +64,20 @@ export const initAction = async (options: InitActionOptions) => {
         service = await getLidarrService(defaultLidarrService);
       }
 
+      if (serviceName === 'prowlarr') {
+        service = await getProwlarrService(defaultProwlarrService);
+      }
+
+      if (serviceName === 'qbittorrent') {
+        service = await getQbittorrentService(defaultQbittorrentService);
+      }
+
       if (serviceName === 'radarr') {
         service = await getRadarrService(defaultRadarrService);
       }
 
       if (serviceName === 'sonarr') {
         service = await getSonarrService(defaultSonarrService);
-      }
-
-      if (serviceName === 'prowlarr') {
-        service = await getProwlarrService(defaultProwlarrService);
       }
 
       if (serviceName === 'tautulli') {
