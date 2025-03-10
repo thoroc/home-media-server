@@ -1,5 +1,6 @@
 export * from './bazarr.ts';
 export * from './lidarr.ts';
+export * from './prowlarr.ts';
 export * from './radarr.ts';
 export * from './sonarr.ts';
 // export { defaultHydrusService } from './hydrus.ts';

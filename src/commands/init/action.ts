@@ -2,16 +2,20 @@ import {
   Compose,
   defaultBazarrService,
   defaultLidarrService,
+  defaultProwlarrService,
   defaultRadarrService,
   defaultSonarrService,
   Service,
   ServiceOptions,
 } from '@scope/services';
 import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7.ts';
-import { getBazarrService } from './services/bazarr.ts';
-import { getLidarrService } from './services/lidarr.ts';
-import { getRadarrService } from './services/radarr.ts';
-import { getSonarrService } from './services/sonarr.ts';
+import {
+  getBazarrService,
+  getLidarrService,
+  getRadarrService,
+  getSonarrService,
+} from './services/mod.ts';
+import { getProwlarrService } from './services/prowlarr.ts';
 
 interface InitActionOptions {
   interactive?: boolean;
@@ -20,13 +24,12 @@ interface InitActionOptions {
 export const initAction = async (options: InitActionOptions) => {
   console.log('Initializing project...', options);
 
-  // const services = ['bazarr', 'lidarr', 'radarr', 'sonarr', 'tautulli'];
-
   const services = [
     { name: 'bazarr', compose: defaultBazarrService },
     { name: 'lidarr', compose: defaultLidarrService },
     { name: 'radarr', compose: defaultRadarrService },
     { name: 'sonarr', compose: defaultSonarrService },
+    { name: 'prowlarr', compose: defaultProwlarrService },
   ];
 
   if (options.interactive) {
@@ -61,6 +64,10 @@ export const initAction = async (options: InitActionOptions) => {
 
       if (serviceName === 'sonarr') {
         compose = await getSonarrService(defaultSonarrService);
+      }
+
+      if (serviceName === 'prowlarr') {
+        compose = await getProwlarrService(defaultProwlarrService);
       }
 
       if (serviceName === 'tautulli') {
