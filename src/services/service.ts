@@ -177,7 +177,9 @@ export class Service {
     const outputFile = `${this.rootDir}/${this.serviceName}/${this.fileName}`;
 
     console.log(
-      `Saving docker config to ${colors.green(outputFile)}...`,
+      `Saving ${colors.green(this.serviceName)}'s docker-config.yaml to ${
+        colors.yellow(outputFile)
+      }`,
     );
 
     Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, { recursive: true });

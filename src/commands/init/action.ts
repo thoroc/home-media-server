@@ -5,6 +5,7 @@ import {
   defaultProwlarrService,
   defaultRadarrService,
   defaultSonarrService,
+  defaultTautulliService,
   Service,
   ServiceOptions,
 } from '@scope/services';
@@ -12,10 +13,11 @@ import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7.ts';
 import {
   getBazarrService,
   getLidarrService,
+  getProwlarrService,
   getRadarrService,
   getSonarrService,
+  getTautulliService,
 } from './services/mod.ts';
-import { getProwlarrService } from './services/prowlarr.ts';
 
 interface InitActionOptions {
   interactive?: boolean;
@@ -30,6 +32,7 @@ export const initAction = async (options: InitActionOptions) => {
     { name: 'radarr', compose: defaultRadarrService },
     { name: 'sonarr', compose: defaultSonarrService },
     { name: 'prowlarr', compose: defaultProwlarrService },
+    { name: 'tautulli', compose: defaultTautulliService },
   ];
 
   if (options.interactive) {
@@ -48,45 +51,44 @@ export const initAction = async (options: InitActionOptions) => {
     console.log('Selected services:', answers);
 
     for (const serviceName of answers) {
-      let compose: Compose = {};
+      let service: Compose = {};
 
       if (serviceName === 'bazarr') {
-        compose = await getBazarrService(defaultBazarrService);
+        service = await getBazarrService(defaultBazarrService);
       }
 
       if (serviceName === 'lidarr') {
-        compose = await getLidarrService(defaultLidarrService);
+        service = await getLidarrService(defaultLidarrService);
       }
 
       if (serviceName === 'radarr') {
-        compose = await getRadarrService(defaultRadarrService);
+        service = await getRadarrService(defaultRadarrService);
       }
 
       if (serviceName === 'sonarr') {
-        compose = await getSonarrService(defaultSonarrService);
+        service = await getSonarrService(defaultSonarrService);
       }
 
       if (serviceName === 'prowlarr') {
-        compose = await getProwlarrService(defaultProwlarrService);
+        service = await getProwlarrService(defaultProwlarrService);
       }
 
       if (serviceName === 'tautulli') {
-        console.log('Initializing Tautulli...');
+        service = await getTautulliService(defaultTautulliService);
       }
 
-      const service = new Service(serviceName)
-        .setImage(compose.image || 'default-image')
-        .setContainerName(compose.containerName || 'default-container-name')
-        .setHostname(compose.hostname)
-        .setLabels(compose.labels || {})
-        .setNetworks(compose.networks || [])
-        .setEnvFile(compose.envFile || 'default-env-file')
-        .setEnvironmentVariables(compose.environmentVariables || {})
-        .setPorts(compose.ports || [])
-        .setVolumes(compose.volumes || [])
-        .setRestartPolicy(compose.restartPolicy || 'always');
-
-      service.save();
+      new Service(serviceName)
+        .setImage(service.image || 'default-image')
+        .setContainerName(service.containerName || 'default-container-name')
+        .setHostname(service.hostname)
+        .setLabels(service.labels || {})
+        .setNetworks(service.networks || [])
+        .setEnvFile(service.envFile || 'default-env-file')
+        .setEnvironmentVariables(service.environmentVariables || {})
+        .setPorts(service.ports || [])
+        .setVolumes(service.volumes || [])
+        .setRestartPolicy(service.restartPolicy || 'always')
+        .save();
     }
   } else {
     console.log('Interactive mode disabled!');
