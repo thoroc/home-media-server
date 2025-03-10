@@ -13,14 +13,14 @@ import {
   getVolumesPrompt,
 } from '../prompts/mod.ts';
 
-export const getBazarrService = async (service: ServiceType): Promise<
+export const getRadarrService = async (service: ServiceType): Promise<
   ServiceType
 > => {
-  console.log('Initializing Bazarr...');
+  console.log('Initializing Radarr...');
 
   const serviceName = await getServiceNamePrompt(service.serviceName);
   const image = await getImagePrompt(service.image!);
-  const containerName = await getContainerNamePrompt(service.containerName!);
+  const containerName = await getContainerNamePrompt(service.serviceName);
   const hostname = await getHostnamePrompt(service.hostname!);
   const labels = await getLabelsPrompt(service.labels!);
   const networks = await getNetworksPrompt(service.networks!);

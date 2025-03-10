@@ -3,12 +3,16 @@ import {
   DefinitionsService,
   ListOrDict,
 } from '@json-types/compose';
+import { colors } from 'jsr:@cliffy/ansi@1.0.0-rc.7/colors';
 import * as yaml from 'jsr:@std/yaml';
+import { DEFAULT_ENVIRONMENT_VARIABLES, RESTART_POLICY } from './constants.ts';
+import { transformObjectToArray } from './transformer.ts';
+import { RestartPolicyType, Separator, ServiceType } from './types.ts';
 
-interface ServiceOptions {
+export interface ServiceOptions {
   rootDir?: string;
   fileName?: string;
-  compose?: {};
+  compose?: ServiceType;
 }
 
 export class Service {
@@ -27,6 +31,24 @@ export class Service {
         [serviceName]: {} as unknown as DefinitionsService,
       },
     };
+    if (options?.compose) {
+      this.setImage(options.compose.image ?? '');
+      this.setContainerName(options.compose.containerName ?? '');
+      this.setHostname(options.compose.hostname ?? '');
+      this.setLabels(options.compose.labels ?? {});
+      this.setNetworks(options.compose.networks ?? []);
+      this.setEnvFile(options.compose.envFile ?? '');
+      this.setEnvironmentVariables(
+        options.compose.environmentVariables ??
+          DEFAULT_ENVIRONMENT_VARIABLES.map((env) => env.split('=')[0]),
+      );
+      this.setPorts(options.compose.ports ?? []);
+      this.setVolumes(options.compose.volumes ?? []);
+      this.setRestartPolicy(
+        options.compose.restartPolicy ?? RESTART_POLICY.UNLESS_STOPPED,
+      );
+    }
+
     this.rootDir = options?.rootDir || `${Deno.cwd()}/services`;
     this.fileName = options?.fileName || `docker-compose.yml`;
   }
@@ -75,7 +97,8 @@ export class Service {
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
     ) {
-      this._dockerCompose.services[this.serviceName].labels = labels;
+      this._dockerCompose.services[this.serviceName].labels =
+        transformObjectToArray(labels);
     }
 
     return this;
@@ -109,35 +132,37 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       this._dockerCompose.services[this.serviceName].environment =
-        environmentVariables;
+        transformObjectToArray(environmentVariables, Separator.EQUAL);
     }
 
     return this;
   }
 
-  public setPorts(ports: string[]): Service {
+  public setPorts(ports: ListOrDict): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
     ) {
-      this._dockerCompose.services[this.serviceName].ports = ports;
+      this._dockerCompose.services[this.serviceName].ports =
+        transformObjectToArray(ports);
     }
 
     return this;
   }
 
-  public setVolumes(volumes: string[]): Service {
+  public setVolumes(volumes: ListOrDict): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
     ) {
-      this._dockerCompose.services[this.serviceName].volumes = volumes;
+      this._dockerCompose.services[this.serviceName].volumes =
+        transformObjectToArray(volumes);
     }
 
     return this;
   }
 
-  public setRestartPolicy(restart: string): Service {
+  public setRestartPolicy(restart: RestartPolicyType): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
@@ -149,6 +174,12 @@ export class Service {
   }
 
   save() {
+    const outputFile = `${this.rootDir}/${this.serviceName}/${this.fileName}`;
+
+    console.log(
+      `Saving docker config to ${colors.green(outputFile)}...`,
+    );
+
     Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, { recursive: true });
     Deno.writeTextFileSync(
       `${this.rootDir}/${this.serviceName}/${this.fileName}`,

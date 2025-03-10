@@ -1,9 +1,7 @@
 import { RestartPolicyType, ServiceType } from '@scope/services';
 import {
-  getContainerNamePrompt,
   getEnvFilePrompt,
   getEnvironmentVariablesPrompt,
-  getHostnamePrompt,
   getImagePrompt,
   getLabelsPrompt,
   getNetworksPrompt,
@@ -13,15 +11,15 @@ import {
   getVolumesPrompt,
 } from '../prompts/mod.ts';
 
-export const getBazarrService = async (service: ServiceType): Promise<
-  ServiceType
-> => {
-  console.log('Initializing Bazarr...');
+export const getSonarrService = async (
+  service: ServiceType,
+): Promise<ServiceType> => {
+  console.log('Initializing Sonarr...');
 
   const serviceName = await getServiceNamePrompt(service.serviceName);
   const image = await getImagePrompt(service.image!);
-  const containerName = await getContainerNamePrompt(service.containerName!);
-  const hostname = await getHostnamePrompt(service.hostname!);
+  const containerName = await getServiceNamePrompt(service.containerName!);
+  const hostname = await getServiceNamePrompt(service.hostname!);
   const labels = await getLabelsPrompt(service.labels!);
   const networks = await getNetworksPrompt(service.networks!);
   const envFile = await getEnvFilePrompt(service.envFile!);

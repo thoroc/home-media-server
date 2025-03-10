@@ -3,4 +3,5 @@ import { initAction } from './action.ts';
 
 export const initCommand = new Command()
   .description('Initialize a new project')
+  .option('-I, --interactive', 'Interactive mode')
   .action(initAction);
