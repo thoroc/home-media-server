@@ -1,5 +1,6 @@
 import {
   DOMAIN,
+  ENV_FILE_PATH,
   ENVIRONMENT_VARIABLES,
   NETWORK_NAME,
   RESTART_POLICY,
@@ -24,7 +25,7 @@ export const defaultProwlarrService: ServiceType = {
       PROWLARR_INTERNAL_PORT,
   },
   networks: [NETWORK_NAME],
-  envFile: '../../.env',
+  envFile: [ENV_FILE_PATH],
   environmentVariables: {
     [`${ENVIRONMENT_VARIABLES.PGID}`]: `\${${ENVIRONMENT_VARIABLES.PGID}}`,
     [`${ENVIRONMENT_VARIABLES.PUID}`]: `\${${ENVIRONMENT_VARIABLES.PUID}}`,

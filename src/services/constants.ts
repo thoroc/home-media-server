@@ -18,5 +18,5 @@ export const RESTART_POLICY = {
 } as const;
 
 export const NETWORK_NAME = 'high-seas';
-
 export const DOMAIN = 'lan';
+export const ENV_FILE_PATH = '../../.env';

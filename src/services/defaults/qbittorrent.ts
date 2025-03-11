@@ -1,5 +1,6 @@
 import {
   DOMAIN,
+  ENV_FILE_PATH,
   ENVIRONMENT_VARIABLES,
   NETWORK_NAME,
   RESTART_POLICY,
@@ -28,7 +29,7 @@ export const defaultQbittorrentService: ServiceType = {
       QBITTORRENT_INTERNAL_PORT1,
   },
   networks: [NETWORK_NAME],
-  envFile: '../../.env',
+  envFile: [ENV_FILE_PATH],
   environmentVariables: {
     [`${ENVIRONMENT_VARIABLES.PGID}`]: `\${${ENVIRONMENT_VARIABLES.PGID}}`,
     [`${ENVIRONMENT_VARIABLES.PUID}`]: `\${${ENVIRONMENT_VARIABLES.PUID}}`,
