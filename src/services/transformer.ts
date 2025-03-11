@@ -9,7 +9,7 @@ import { Separator, SeparatorType } from './types.ts';
  * @returns An array of strings, each representing a key-value pair from the object.
  */
 export const transformObjectToArray = (
-  obj: Record<string, any>,
+  obj: Record<string, unknown>,
   sep: SeparatorType = Separator.COLUMN,
 ) => Object.keys(obj).map((key) => `${key}${sep}${obj[key]}`);
 
@@ -25,8 +25,8 @@ export const transformArrayToObject = (
   arr: string[],
   sep: SeparatorType = Separator.COLUMN,
 ) =>
-  arr.reduce((acc: Record<string, any>, item) => {
-    const [key, value] = item.split(sep);
-    acc[key] = value;
+  arr.reduce((acc: Record<string, string>, item) => {
+    const [key, ...value] = item.split(sep);
+    acc[key] = value.join(sep);
     return acc;
   }, {});

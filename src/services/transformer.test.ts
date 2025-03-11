@@ -44,4 +44,19 @@ describe('transformObjectToArray', () => {
       ]);
     });
   }
+
+  it('should transform an object into an array with multiple separator', () => {
+    // Arrange
+    const obj = {
+      key1: 'value1:0',
+      key2: 'value2:1',
+      key3: 'value3:2',
+    };
+
+    // Act
+    const result = transformObjectToArray(obj);
+
+    // Assert
+    assertEquals(result, ['key1:value1:0', 'key2:value2:1', 'key3:value3:2']);
+  });
 });

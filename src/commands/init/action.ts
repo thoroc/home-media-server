@@ -12,7 +12,7 @@ import {
   ServiceOptions,
 } from '@scope/services';
 import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7.ts';
-import { getServiceDefaultValues } from './services/get-service-default-values.ts';
+import { getService } from './prompts/mod.ts';
 
 interface InitActionOptions {
   interactive?: boolean;
@@ -51,35 +51,35 @@ export const initAction = async (options: InitActionOptions) => {
       let service: Compose = {};
 
       if (serviceName === 'bazarr') {
-        service = await getServiceDefaultValues(defaultBazarrService);
+        service = await getService(defaultBazarrService);
       }
 
       if (serviceName === 'lidarr') {
-        service = await getServiceDefaultValues(defaultLidarrService);
+        service = await getService(defaultLidarrService);
       }
 
       if (serviceName === 'prowlarr') {
-        service = await getServiceDefaultValues(defaultProwlarrService);
+        service = await getService(defaultProwlarrService);
       }
 
       if (serviceName === 'qbittorrent') {
-        service = await getServiceDefaultValues(defaultQbittorrentService);
+        service = await getService(defaultQbittorrentService);
       }
 
       if (serviceName === 'radarr') {
-        service = await getServiceDefaultValues(defaultRadarrService);
+        service = await getService(defaultRadarrService);
       }
 
       if (serviceName === 'sonarr') {
-        service = await getServiceDefaultValues(defaultSonarrService);
+        service = await getService(defaultSonarrService);
       }
 
       if (serviceName === 'tautulli') {
-        service = await getServiceDefaultValues(defaultTautulliService);
+        service = await getService(defaultTautulliService);
       }
 
       if (serviceName === 'watchtower') {
-        service = await getServiceDefaultValues(defaultWatchtowerService);
+        service = await getService(defaultWatchtowerService);
       }
 
       new Service(serviceName, {
@@ -93,19 +93,7 @@ export const initAction = async (options: InitActionOptions) => {
       const compose = service.compose;
 
       const serviceOptions: ServiceOptions = {
-        compose: {
-          serviceName: serviceName,
-          image: compose.image!,
-          containerName: compose.containerName!,
-          hostname: compose.hostname,
-          labels: compose.labels!,
-          networks: compose.networks!,
-          envFile: compose.envFile!,
-          environmentVariables: compose.environmentVariables!,
-          ports: compose.ports!,
-          volumes: compose.volumes!,
-          restartPolicy: compose.restartPolicy!,
-        },
+        compose,
       };
 
       new Service(serviceName, serviceOptions).save();

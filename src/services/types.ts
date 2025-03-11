@@ -1,4 +1,4 @@
-import { ListOrDict } from '@json-types/compose';
+import { Command, EnvFile, ListOrDict } from '@json-types/compose';
 import { ENVIRONMENT_VARIABLES, RESTART_POLICY } from './constants.ts';
 
 export type EnvironmentVariableType =
@@ -13,8 +13,8 @@ export type Compose = {
   hostname?: string;
   labels?: ListOrDict;
   networks?: string[];
-  command?: string;
-  envFile?: string;
+  command?: Command;
+  envFile?: EnvFile;
   environmentVariables?: ListOrDict;
   ports?: ListOrDict;
   volumes?: ListOrDict;

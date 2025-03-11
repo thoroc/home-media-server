@@ -1,11 +1,12 @@
 import {
+  Command,
   type Compose,
   DefinitionsService,
+  EnvFile,
   ListOrDict,
 } from '@json-types/compose';
 import { colors } from 'jsr:@cliffy/ansi@1.0.0-rc.7/colors';
 import * as yaml from 'jsr:@std/yaml';
-import { DEFAULT_ENVIRONMENT_VARIABLES, RESTART_POLICY } from './constants.ts';
 import { transformObjectToArray } from './transformer.ts';
 import { RestartPolicyType, Separator, ServiceType } from './types.ts';
 
@@ -31,22 +32,26 @@ export class Service {
         [serviceName]: {} as unknown as DefinitionsService,
       },
     };
-    if (options?.compose) {
-      this.setImage(options.compose.image ?? '');
-      this.setContainerName(options.compose.containerName ?? '');
-      this.setHostname(options.compose.hostname ?? '');
-      this.setLabels(options.compose.labels ?? {});
-      this.setNetworks(options.compose.networks ?? []);
-      this.setEnvFile(options.compose.envFile ?? '');
-      this.setEnvironmentVariables(
-        options.compose.environmentVariables ??
-          DEFAULT_ENVIRONMENT_VARIABLES.map((env) => env.split('=')[0]),
-      );
-      this.setPorts(options.compose.ports ?? []);
-      this.setVolumes(options.compose.volumes ?? []);
-      this.setRestartPolicy(
-        options.compose.restartPolicy ?? RESTART_POLICY.UNLESS_STOPPED,
-      );
+    if (options?.compose?.image) this.setImage(options.compose.image);
+    if (options?.compose?.containerName) {
+      this.setContainerName(options.compose.containerName);
+    }
+    if (options?.compose?.hostname) {
+      this.setHostname(options.compose.hostname);
+    }
+    if (options?.compose?.labels) this.setLabels(options.compose.labels);
+    if (options?.compose?.networks) {
+      this.setNetworks(options.compose.networks);
+    }
+    if (options?.compose?.envFile) this.setEnvFile(options.compose.envFile);
+    if (options?.compose?.environmentVariables) {
+      this.setEnvironmentVariables(options.compose.environmentVariables);
+    }
+    if (options?.compose?.command) this.setCommand(options.compose.command);
+    if (options?.compose?.ports) this.setPorts(options.compose.ports);
+    if (options?.compose?.volumes) this.setVolumes(options.compose.volumes);
+    if (options?.compose?.restartPolicy) {
+      this.setRestartPolicy(options.compose.restartPolicy);
     }
 
     this.rootDir = options?.rootDir || `${Deno.cwd()}/services`;
@@ -98,7 +103,9 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       this._dockerCompose.services[this.serviceName].labels =
-        Array.isArray(labels) ? labels : transformObjectToArray(labels);
+        Array.isArray(labels)
+          ? labels
+          : transformObjectToArray(labels, Separator.EQUAL);
     }
 
     return this;
@@ -115,7 +122,7 @@ export class Service {
     return this;
   }
 
-  public setEnvFile(envFile: string): Service {
+  public setEnvFile(envFile: EnvFile): Service {
     if (
       this._dockerCompose.services &&
       this._dockerCompose.services[this.serviceName]
@@ -135,6 +142,17 @@ export class Service {
         Array.isArray(environmentVariables)
           ? environmentVariables
           : transformObjectToArray(environmentVariables, Separator.EQUAL);
+    }
+
+    return this;
+  }
+
+  public setCommand(command: Command): Service {
+    if (
+      this._dockerCompose.services &&
+      this._dockerCompose.services[this.serviceName]
+    ) {
+      this._dockerCompose.services[this.serviceName].command = command;
     }
 
     return this;
@@ -189,6 +207,11 @@ export class Service {
       this._dockerCompose.services[this.serviceName]
     ) {
       console.log(
+        'volumes:',
+        this._dockerCompose.services[this.serviceName].volumes,
+      );
+      console.log(
+        'volumes as yaml:\n',
         yaml.stringify(this._dockerCompose.services[this.serviceName].volumes),
       );
     }
@@ -196,7 +219,10 @@ export class Service {
     Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, { recursive: true });
     Deno.writeTextFileSync(
       `${this.rootDir}/${this.serviceName}/${this.fileName}`,
-      yaml.stringify(this._dockerCompose),
+      yaml.stringify(this._dockerCompose, {
+        lineWidth: -1, // Disables automatic line wrapping
+        // forceQuotes: true, // Ensures all values are quoted
+      }),
     );
   }
 }

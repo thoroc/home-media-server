@@ -14,7 +14,7 @@ import {
   getVolumesPrompt,
 } from '../prompts/mod.ts';
 
-export const getServiceDefaultValues = async (service: ServiceType) => {
+export const getService = async (service: ServiceType) => {
   const answers: Record<string, string | string[]> = {};
 
   for (const prop of Object.keys(service)) {

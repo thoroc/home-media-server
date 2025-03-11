@@ -9,4 +9,5 @@ export { getNetworksPrompt } from './get-networks.ts';
 export { getPortsPrompt } from './get-ports.ts';
 export { getRestartPolicyPrompt } from './get-restart-policy.ts';
 export { getServiceNamePrompt } from './get-service-name.ts';
+export { getService } from './get-service.ts';
 export { getVolumesPrompt } from './get-volumes.ts';
