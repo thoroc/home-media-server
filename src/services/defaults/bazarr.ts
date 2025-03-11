@@ -4,16 +4,16 @@ import {
   NETWORK_NAME,
   RESTART_POLICY,
 } from '../constants.ts';
+import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
 import { ServiceType } from '../types.ts';
 
 export const BAZARR_SERVICE_NAME = 'bazarr';
-export const BAZARR_IMAGE = 'lscr.io/linuxserver/bazarr:latest';
 export const BAZARR_INTERNAL_PORT = 6767;
 export const BAZARR_EXTERNAL_PORT = 6767;
 
 export const defaultBazarrService: ServiceType = {
   serviceName: BAZARR_SERVICE_NAME,
-  image: BAZARR_IMAGE,
+  image: getServiceImage(BAZARR_SERVICE_NAME),
   containerName: BAZARR_SERVICE_NAME,
   hostname: `${BAZARR_SERVICE_NAME}.${DOMAIN}`,
   labels: {
@@ -34,9 +34,8 @@ export const defaultBazarrService: ServiceType = {
   ports: {
     [BAZARR_INTERNAL_PORT]: BAZARR_EXTERNAL_PORT,
   },
-  volumes: {
-    [`\${HMS_DIR}/apps/${BAZARR_SERVICE_NAME}`]: '/config',
-    '${HMS_DIR}/data/media': '/mnt/media',
-  },
+  volumes: getServiceAppVolume(BAZARR_SERVICE_NAME, {
+    withMedia: true,
+  }),
   restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
 };

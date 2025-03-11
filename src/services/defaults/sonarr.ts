@@ -4,16 +4,16 @@ import {
   NETWORK_NAME,
   RESTART_POLICY,
 } from '../constants.ts';
+import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
 import { ServiceType } from '../types.ts';
 
 export const SONARR_SERVICE_NAME = 'sonarr';
-export const SONARR_IMAGE = 'lscr.io/linuxserver/sonarr:latest';
 export const SONARR_INTERNAL_PORT = 8989;
 export const SONARR_EXTERNAL_PORT = 8989;
 
 export const defaultSonarrService: ServiceType = {
   serviceName: SONARR_SERVICE_NAME,
-  image: SONARR_IMAGE,
+  image: getServiceImage(SONARR_SERVICE_NAME),
   containerName: SONARR_SERVICE_NAME,
   hostname: `${SONARR_SERVICE_NAME}.${DOMAIN}`,
   labels: {
@@ -34,10 +34,9 @@ export const defaultSonarrService: ServiceType = {
   ports: {
     [SONARR_INTERNAL_PORT]: SONARR_EXTERNAL_PORT,
   },
-  volumes: {
-    [`\${HMS_DIR}/apps/${SONARR_SERVICE_NAME}`]: '/config',
-    '${HMS_DIR}/data/downloads': '/mnt/downloads',
-    '${HMS_DIR}/data/media/tv_shows': '/mnt/media',
-  },
+  volumes: getServiceAppVolume(SONARR_SERVICE_NAME, {
+    withDownloads: true,
+    withTvShows: true,
+  }),
   restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
 };

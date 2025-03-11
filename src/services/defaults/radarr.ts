@@ -4,16 +4,16 @@ import {
   NETWORK_NAME,
   RESTART_POLICY,
 } from '../constants.ts';
+import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
 import { ServiceType } from '../types.ts';
 
 export const RADARR_SERVICE_NAME = 'radarr';
-export const RADARR_IMAGE = 'lscr.io/linuxserver/radarr:latest';
 export const RADARR_INTERNAL_PORT = 7878;
 export const RADARR_EXTERNAL_PORT = 7878;
 
 export const defaultRadarrService: ServiceType = {
   serviceName: RADARR_SERVICE_NAME,
-  image: RADARR_IMAGE,
+  image: getServiceImage(RADARR_SERVICE_NAME),
   containerName: RADARR_SERVICE_NAME,
   hostname: `${RADARR_SERVICE_NAME}.${DOMAIN}`,
   labels: {
@@ -34,10 +34,9 @@ export const defaultRadarrService: ServiceType = {
   ports: {
     [RADARR_INTERNAL_PORT]: RADARR_EXTERNAL_PORT,
   },
-  volumes: {
-    [`\${HMS_DIR}/apps/${RADARR_SERVICE_NAME}`]: '/config',
-    '${HMS_DIR}/data/downloads': '/mnt/downloads',
-    '${HMS_DIR}/data/media/movies': '/mnt/media',
-  },
+  volumes: getServiceAppVolume(RADARR_SERVICE_NAME, {
+    withDownloads: true,
+    withMovies: true,
+  }),
   restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
 };

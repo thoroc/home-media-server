@@ -4,16 +4,16 @@ import {
   NETWORK_NAME,
   RESTART_POLICY,
 } from '../constants.ts';
+import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
 import { ServiceType } from '../types.ts';
 
 export const LIDARR_SERVICE_NAME = 'lidarr';
-export const LIDARR_IMAGE = 'lscr.io/linuxserver/lidarr:latest';
 export const LIDARR_INTERNAL_PORT = 8686;
 export const LIDARR_EXTERNAL_PORT = 8686;
 
 export const defaultLidarrService: ServiceType = {
   serviceName: LIDARR_SERVICE_NAME,
-  image: LIDARR_IMAGE,
+  image: getServiceImage(LIDARR_SERVICE_NAME),
   containerName: LIDARR_SERVICE_NAME,
   hostname: `${LIDARR_SERVICE_NAME}.${DOMAIN}`,
   labels: {
@@ -34,9 +34,8 @@ export const defaultLidarrService: ServiceType = {
   ports: {
     [LIDARR_INTERNAL_PORT]: LIDARR_EXTERNAL_PORT,
   },
-  volumes: {
-    [`\${HMS_DIR}/apps/${LIDARR_SERVICE_NAME}`]: '/config',
-    '${HMS_DIR}/data/media': '/mnt/media',
-  },
+  volumes: getServiceAppVolume(LIDARR_SERVICE_NAME, {
+    withMedia: true,
+  }),
   restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
 };
