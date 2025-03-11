@@ -1,12 +1,10 @@
+import { DOMAIN, ENV_FILE_PATH, NETWORK_NAME } from '../constants.ts';
+import { environmentVariables, restartPolicy, ServiceType } from '../types.ts';
 import {
-  DOMAIN,
-  ENV_FILE_PATH,
-  ENVIRONMENT_VARIABLES,
-  NETWORK_NAME,
-  RESTART_POLICY,
-} from '../constants.ts';
-import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
-import { ServiceType } from '../types.ts';
+  getServiceAppVolume,
+  getServiceImage,
+  getTraefikLabels,
+} from './helpers.ts';
 
 export const SONARR_SERVICE_NAME = 'sonarr';
 export const SONARR_INTERNAL_PORT = 8989;
@@ -17,21 +15,10 @@ export const defaultSonarrService: ServiceType = {
   image: getServiceImage(SONARR_SERVICE_NAME),
   containerName: SONARR_SERVICE_NAME,
   hostname: `${SONARR_SERVICE_NAME}.${DOMAIN}`,
-  labels: {
-    'traefik.enable': 'true',
-    [`traefik.http.routers.${SONARR_SERVICE_NAME}.rule`]:
-      `Host(\`${SONARR_SERVICE_NAME}.${DOMAIN}\`)`,
-    [`traefik.http.services.${SONARR_SERVICE_NAME}.loadbalancer.server.port`]:
-      SONARR_INTERNAL_PORT,
-  },
+  labels: getTraefikLabels(SONARR_SERVICE_NAME, SONARR_INTERNAL_PORT),
   networks: [NETWORK_NAME],
   envFile: [ENV_FILE_PATH],
-  environmentVariables: {
-    [`${ENVIRONMENT_VARIABLES.PGID}`]: `\${${ENVIRONMENT_VARIABLES.PGID}}`,
-    [`${ENVIRONMENT_VARIABLES.PUID}`]: `\${${ENVIRONMENT_VARIABLES.PUID}}`,
-    [`${ENVIRONMENT_VARIABLES.TIMEZONE}`]:
-      `\${${ENVIRONMENT_VARIABLES.TIMEZONE}}`,
-  },
+  environmentVariables: environmentVariables,
   ports: {
     [SONARR_INTERNAL_PORT]: SONARR_EXTERNAL_PORT,
   },
@@ -39,5 +26,5 @@ export const defaultSonarrService: ServiceType = {
     withDownloads: true,
     withTvShows: true,
   }),
-  restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
+  restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

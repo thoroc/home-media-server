@@ -1,11 +1,23 @@
 import { Command, EnvFile, ListOrDict } from '@json-types/compose';
-import { ENVIRONMENT_VARIABLES, RESTART_POLICY } from './constants.ts';
+
+export const environmentVariables = {
+  PUID: 'PUID',
+  PGID: 'PGID',
+  TIMEZONE: 'TZ',
+} as const;
 
 export type EnvironmentVariableType =
-  typeof ENVIRONMENT_VARIABLES[keyof typeof ENVIRONMENT_VARIABLES];
+  typeof environmentVariables[keyof typeof environmentVariables];
+
+export const restartPolicy = {
+  ALWAYS: 'always',
+  NO: 'no',
+  UNLESS_STOPPED: 'unless-stopped',
+  ON_FAILURE: 'on-failure',
+} as const;
 
 export type RestartPolicyType =
-  typeof RESTART_POLICY[keyof typeof RESTART_POLICY];
+  typeof restartPolicy[keyof typeof restartPolicy];
 
 export type Compose = {
   image?: string;

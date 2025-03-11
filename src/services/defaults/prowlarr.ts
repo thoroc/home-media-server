@@ -1,12 +1,15 @@
 import {
+  DEFAULT_ENVIRONMENT_VARIABLES,
   DOMAIN,
   ENV_FILE_PATH,
-  ENVIRONMENT_VARIABLES,
   NETWORK_NAME,
-  RESTART_POLICY,
 } from '../constants.ts';
-import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
-import { ServiceType } from '../types.ts';
+import { restartPolicy, ServiceType } from '../types.ts';
+import {
+  getServiceAppVolume,
+  getServiceImage,
+  getTraefikLabels,
+} from './helpers.ts';
 
 export const PROWLARR_SERVICE_NAME = 'prowlarr';
 export const PROWLARR_INTERNAL_PORT = 9696;
@@ -17,21 +20,10 @@ export const defaultProwlarrService: ServiceType = {
   image: getServiceImage(PROWLARR_SERVICE_NAME),
   containerName: PROWLARR_SERVICE_NAME,
   hostname: `${PROWLARR_SERVICE_NAME}.${DOMAIN}`,
-  labels: {
-    'traefik.enable': 'true',
-    [`traefik.http.routers.${PROWLARR_SERVICE_NAME}.rule`]:
-      `Host(\`${PROWLARR_SERVICE_NAME}.${DOMAIN}\`)`,
-    [`traefik.http.services.${PROWLARR_SERVICE_NAME}.loadbalancer.server.port`]:
-      PROWLARR_INTERNAL_PORT,
-  },
+  labels: getTraefikLabels(PROWLARR_SERVICE_NAME, PROWLARR_INTERNAL_PORT),
   networks: [NETWORK_NAME],
   envFile: [ENV_FILE_PATH],
-  environmentVariables: {
-    [`${ENVIRONMENT_VARIABLES.PGID}`]: `\${${ENVIRONMENT_VARIABLES.PGID}}`,
-    [`${ENVIRONMENT_VARIABLES.PUID}`]: `\${${ENVIRONMENT_VARIABLES.PUID}}`,
-    [`${ENVIRONMENT_VARIABLES.TIMEZONE}`]:
-      `\${${ENVIRONMENT_VARIABLES.TIMEZONE}}`,
-  },
+  environmentVariables: DEFAULT_ENVIRONMENT_VARIABLES,
   ports: {
     [PROWLARR_INTERNAL_PORT]: PROWLARR_EXTERNAL_PORT,
   },
@@ -39,5 +31,5 @@ export const defaultProwlarrService: ServiceType = {
     withDownloads: true,
     withMovies: true,
   }),
-  restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
+  restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

@@ -1,12 +1,15 @@
 import {
+  DEFAULT_ENVIRONMENT_VARIABLES,
   DOMAIN,
   ENV_FILE_PATH,
-  ENVIRONMENT_VARIABLES,
   NETWORK_NAME,
-  RESTART_POLICY,
 } from '../constants.ts';
-import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
-import { ServiceType } from '../types.ts';
+import { restartPolicy, ServiceType } from '../types.ts';
+import {
+  getServiceAppVolume,
+  getServiceImage,
+  getTraefikLabels,
+} from './helpers.ts';
 
 export const QBITTORRENT_SERVICE_NAME = 'qbittorrent';
 export const QBITTORRENT_INTERNAL_PORT1 = 8080;
@@ -21,21 +24,13 @@ export const defaultQbittorrentService: ServiceType = {
   image: getServiceImage(QBITTORRENT_SERVICE_NAME),
   containerName: QBITTORRENT_SERVICE_NAME,
   hostname: `${QBITTORRENT_SERVICE_NAME}.${DOMAIN}`,
-  labels: {
-    'traefik.enable': 'true',
-    [`traefik.http.routers.${QBITTORRENT_SERVICE_NAME}.rule`]:
-      `Host(\`${QBITTORRENT_SERVICE_NAME}.${DOMAIN}\`)`,
-    [`traefik.http.services.${QBITTORRENT_SERVICE_NAME}.loadbalancer.server.port`]:
-      QBITTORRENT_INTERNAL_PORT1,
-  },
+  labels: getTraefikLabels(
+    QBITTORRENT_SERVICE_NAME,
+    QBITTORRENT_INTERNAL_PORT1,
+  ),
   networks: [NETWORK_NAME],
   envFile: [ENV_FILE_PATH],
-  environmentVariables: {
-    [`${ENVIRONMENT_VARIABLES.PGID}`]: `\${${ENVIRONMENT_VARIABLES.PGID}}`,
-    [`${ENVIRONMENT_VARIABLES.PUID}`]: `\${${ENVIRONMENT_VARIABLES.PUID}}`,
-    [`${ENVIRONMENT_VARIABLES.TIMEZONE}`]:
-      `\${${ENVIRONMENT_VARIABLES.TIMEZONE}}`,
-  },
+  environmentVariables: DEFAULT_ENVIRONMENT_VARIABLES,
   ports: [
     `${QBITTORRENT_INTERNAL_PORT1}:${QBITTORRENT_EXTERNAL_PORT1}`,
     `${QBITTORRENT_INTERNAL_PORT2}:${QBITTORRENT_EXTERNAL_PORT2}`,
@@ -44,5 +39,5 @@ export const defaultQbittorrentService: ServiceType = {
   volumes: getServiceAppVolume(QBITTORRENT_SERVICE_NAME, {
     withDownloads: true,
   }),
-  restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
+  restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

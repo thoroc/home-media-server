@@ -1,12 +1,15 @@
 import {
+  DEFAULT_ENVIRONMENT_VARIABLES,
   DOMAIN,
   ENV_FILE_PATH,
-  ENVIRONMENT_VARIABLES,
   NETWORK_NAME,
-  RESTART_POLICY,
 } from '../constants.ts';
-import { getServiceAppVolume, getServiceImage } from '../helpers.ts';
-import { ServiceType } from '../types.ts';
+import { restartPolicy, ServiceType } from '../types.ts';
+import {
+  getServiceAppVolume,
+  getServiceImage,
+  getTraefikLabels,
+} from './helpers.ts';
 
 export const TAUTULLI_SERVICE_NAME = 'tautulli';
 export const TAUTULLI_INTERNAL_PORT = 8181;
@@ -17,21 +20,10 @@ export const defaultTautulliService: ServiceType = {
   image: getServiceImage(TAUTULLI_SERVICE_NAME),
   containerName: TAUTULLI_SERVICE_NAME,
   hostname: `${TAUTULLI_SERVICE_NAME}.${DOMAIN}`,
-  labels: {
-    'traefik.enable': 'true',
-    [`traefik.http.routers.${TAUTULLI_SERVICE_NAME}.rule`]:
-      `Host(\`${TAUTULLI_SERVICE_NAME}.${DOMAIN}\`)`,
-    [`traefik.http.services.${TAUTULLI_SERVICE_NAME}.loadbalancer.server.port`]:
-      TAUTULLI_INTERNAL_PORT,
-  },
+  labels: getTraefikLabels(TAUTULLI_SERVICE_NAME, TAUTULLI_INTERNAL_PORT),
   networks: [NETWORK_NAME],
   envFile: [ENV_FILE_PATH],
-  environmentVariables: {
-    [`${ENVIRONMENT_VARIABLES.PGID}`]: `\${${ENVIRONMENT_VARIABLES.PGID}}`,
-    [`${ENVIRONMENT_VARIABLES.PUID}`]: `\${${ENVIRONMENT_VARIABLES.PUID}}`,
-    [`${ENVIRONMENT_VARIABLES.TIMEZONE}`]:
-      `\${${ENVIRONMENT_VARIABLES.TIMEZONE}}`,
-  },
+  environmentVariables: DEFAULT_ENVIRONMENT_VARIABLES,
   ports: {
     [TAUTULLI_INTERNAL_PORT]: TAUTULLI_EXTERNAL_PORT,
   },
@@ -40,5 +32,5 @@ export const defaultTautulliService: ServiceType = {
       `/logs:ro`,
     ...getServiceAppVolume(TAUTULLI_SERVICE_NAME),
   },
-  restartPolicy: RESTART_POLICY.UNLESS_STOPPED,
+  restartPolicy: restartPolicy.UNLESS_STOPPED,
 };
