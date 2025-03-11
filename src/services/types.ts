@@ -13,6 +13,7 @@ export type Compose = {
   hostname?: string;
   labels?: ListOrDict;
   networks?: string[];
+  command?: string;
   envFile?: string;
   environmentVariables?: ListOrDict;
   ports?: ListOrDict;

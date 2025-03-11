@@ -5,6 +5,7 @@ export * from './qbittorrent.ts';
 export * from './radarr.ts';
 export * from './sonarr.ts';
 export * from './tautulli.ts';
+export * from './watchtower.ts';
 // export { defaultHydrusService } from './hydrus.ts';
 // export { defaultJackettService } from './jackett.ts';
 // export { defaultOmbiService } from './ombi.ts';

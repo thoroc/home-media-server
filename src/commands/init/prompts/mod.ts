@@ -1,3 +1,4 @@
+export { getCommandPrompt } from './get-command.ts';
 export { getContainerNamePrompt } from './get-container-name.ts';
 export { getEnvFilePrompt } from './get-env-file.ts';
 export { getEnvironmentVariablesPrompt } from './get-environment-variables.ts';

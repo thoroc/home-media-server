@@ -7,6 +7,7 @@ import {
   defaultRadarrService,
   defaultSonarrService,
   defaultTautulliService,
+  defaultWatchtowerService,
   Service,
   ServiceOptions,
 } from '@scope/services';
@@ -28,6 +29,7 @@ export const initAction = async (options: InitActionOptions) => {
     { name: 'prowlarr', compose: defaultProwlarrService },
     { name: 'tautulli', compose: defaultTautulliService },
     { name: 'qbittorrent', compose: defaultQbittorrentService },
+    { name: 'watchtower', compose: defaultWatchtowerService },
   ];
 
   if (options.interactive) {
@@ -76,18 +78,13 @@ export const initAction = async (options: InitActionOptions) => {
         service = await getServiceDefaultValues(defaultTautulliService);
       }
 
-      new Service(serviceName)
-        .setImage(service.image || 'default-image')
-        .setContainerName(service.containerName || 'default-container-name')
-        .setHostname(service.hostname)
-        .setLabels(service.labels || {})
-        .setNetworks(service.networks || [])
-        .setEnvFile(service.envFile || 'default-env-file')
-        .setEnvironmentVariables(service.environmentVariables || {})
-        .setPorts(service.ports || [])
-        .setVolumes(service.volumes || [])
-        .setRestartPolicy(service.restartPolicy || 'always')
-        .save();
+      if (serviceName === 'watchtower') {
+        service = await getServiceDefaultValues(defaultWatchtowerService);
+      }
+
+      new Service(serviceName, {
+        compose: { serviceName, ...service },
+      }).save();
     }
   } else {
     console.log('Interactive mode disabled!');

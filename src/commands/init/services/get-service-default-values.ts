@@ -1,6 +1,7 @@
 import { RestartPolicyType, ServiceType } from '@scope/services';
 import { getEnvFilePrompt } from '../prompts/get-env-file.ts';
 import {
+  getCommandPrompt,
   getContainerNamePrompt,
   getEnvironmentVariablesPrompt,
   getHostnamePrompt,
@@ -35,6 +36,9 @@ export const getServiceDefaultValues = async (service: ServiceType) => {
         break;
       case 'networks':
         answers[prop] = await getNetworksPrompt(service.networks!);
+        break;
+      case 'command':
+        answers[prop] = await getCommandPrompt(service.command!);
         break;
       case 'envFile':
         answers[prop] = await getEnvFilePrompt(service.envFile!);
