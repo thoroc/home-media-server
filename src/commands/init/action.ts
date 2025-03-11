@@ -11,15 +11,7 @@ import {
   ServiceOptions,
 } from '@scope/services';
 import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7.ts';
-import {
-  getBazarrService,
-  getLidarrService,
-  getProwlarrService,
-  getRadarrService,
-  getSonarrService,
-  getTautulliService,
-} from './services/mod.ts';
-import { getQbittorrentService } from './services/qbittorrent.ts';
+import { getServiceDefaultValues } from './services/get-service-default-values.ts';
 
 interface InitActionOptions {
   interactive?: boolean;
@@ -57,31 +49,31 @@ export const initAction = async (options: InitActionOptions) => {
       let service: Compose = {};
 
       if (serviceName === 'bazarr') {
-        service = await getBazarrService(defaultBazarrService);
+        service = await getServiceDefaultValues(defaultBazarrService);
       }
 
       if (serviceName === 'lidarr') {
-        service = await getLidarrService(defaultLidarrService);
+        service = await getServiceDefaultValues(defaultLidarrService);
       }
 
       if (serviceName === 'prowlarr') {
-        service = await getProwlarrService(defaultProwlarrService);
+        service = await getServiceDefaultValues(defaultProwlarrService);
       }
 
       if (serviceName === 'qbittorrent') {
-        service = await getQbittorrentService(defaultQbittorrentService);
+        service = await getServiceDefaultValues(defaultQbittorrentService);
       }
 
       if (serviceName === 'radarr') {
-        service = await getRadarrService(defaultRadarrService);
+        service = await getServiceDefaultValues(defaultRadarrService);
       }
 
       if (serviceName === 'sonarr') {
-        service = await getSonarrService(defaultSonarrService);
+        service = await getServiceDefaultValues(defaultSonarrService);
       }
 
       if (serviceName === 'tautulli') {
-        service = await getTautulliService(defaultTautulliService);
+        service = await getServiceDefaultValues(defaultTautulliService);
       }
 
       new Service(serviceName)
