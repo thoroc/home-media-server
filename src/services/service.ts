@@ -193,36 +193,50 @@ export class Service {
     return this;
   }
 
-  save() {
+  exists() {
+    return Deno.statSync(
+      `${this.rootDir}/${this.serviceName}/${this.fileName}`,
+    );
+  }
+
+  save(options?: { overwrite?: boolean }) {
     const outputFile = `${this.rootDir}/${this.serviceName}/${this.fileName}`;
 
-    console.log(
-      `Saving ${colors.green(this.serviceName)}'s docker-config.yaml to ${
-        colors.yellow(outputFile)
-      }`,
-    );
-
-    if (
-      this._dockerCompose.services &&
-      this._dockerCompose.services[this.serviceName]
-    ) {
+    // if (
+    //   this._dockerCompose.services &&
+    //   this._dockerCompose.services[this.serviceName]
+    // ) {
+    //   console.log(
+    //     'volumes:',
+    //     this._dockerCompose.services[this.serviceName].volumes,
+    //   );
+    //   console.log(
+    //     'volumes as yaml:\n',
+    //     yaml.stringify(this._dockerCompose.services[this.serviceName].volumes),
+    //   );
+    // }
+    if (options?.overwrite || !this.exists()) {
       console.log(
-        'volumes:',
-        this._dockerCompose.services[this.serviceName].volumes,
+        `Saving ${colors.green(this.serviceName)}'s docker-config.yaml to ${
+          colors.yellow(outputFile)
+        }`,
       );
-      console.log(
-        'volumes as yaml:\n',
-        yaml.stringify(this._dockerCompose.services[this.serviceName].volumes),
+      Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, {
+        recursive: true,
+      });
+      Deno.writeTextFileSync(
+        `${this.rootDir}/${this.serviceName}/${this.fileName}`,
+        yaml.stringify(this._dockerCompose, {
+          lineWidth: -1, // Disables automatic line wrapping
+          // forceQuotes: true, // Ensures all values are quoted
+        }),
+      );
+    } else {
+      console.error(
+        `File ${
+          colors.yellow(outputFile)
+        } already exists. Use the --overwrite flag to overwrite it.`,
       );
     }
-
-    Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, { recursive: true });
-    Deno.writeTextFileSync(
-      `${this.rootDir}/${this.serviceName}/${this.fileName}`,
-      yaml.stringify(this._dockerCompose, {
-        lineWidth: -1, // Disables automatic line wrapping
-        // forceQuotes: true, // Ensures all values are quoted
-      }),
-    );
   }
 }
