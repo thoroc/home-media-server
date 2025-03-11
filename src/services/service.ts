@@ -184,6 +184,15 @@ export class Service {
       }`,
     );
 
+    if (
+      this._dockerCompose.services &&
+      this._dockerCompose.services[this.serviceName]
+    ) {
+      console.log(
+        yaml.stringify(this._dockerCompose.services[this.serviceName].volumes),
+      );
+    }
+
     Deno.mkdirSync(`${this.rootDir}/${this.serviceName}`, { recursive: true });
     Deno.writeTextFileSync(
       `${this.rootDir}/${this.serviceName}/${this.fileName}`,
