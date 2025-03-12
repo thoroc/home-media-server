@@ -3,13 +3,10 @@ import {
   DOMAIN,
   ENV_FILE_PATH,
   NETWORK_NAME,
+  volumes,
 } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const PROWLARR_SERVICE_NAME = 'prowlarr';
 export const PROWLARR_INTERNAL_PORT = 9696;
@@ -27,9 +24,8 @@ export const defaultProwlarrService: ServiceType = {
   ports: {
     [PROWLARR_INTERNAL_PORT]: PROWLARR_EXTERNAL_PORT,
   },
-  volumes: getServiceAppVolume(PROWLARR_SERVICE_NAME, {
-    withDownloads: true,
-    withMovies: true,
-  }),
+  volumes: {
+    [volumes.localAppdir(PROWLARR_SERVICE_NAME)]: '/config',
+  },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

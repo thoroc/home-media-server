@@ -3,13 +3,10 @@ import {
   DOMAIN,
   ENV_FILE_PATH,
   NETWORK_NAME,
+  volumes,
 } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const QBITTORRENT_SERVICE_NAME = 'qbittorrent';
 export const QBITTORRENT_INTERNAL_PORT1 = 8080;
@@ -36,8 +33,9 @@ export const defaultQbittorrentService: ServiceType = {
     `${QBITTORRENT_INTERNAL_PORT2}:${QBITTORRENT_EXTERNAL_PORT2}`,
     `${QBITTORRENT_INTERNAL_PORT3}:${QBITTORRENT_EXTERNAL_PORT3}`,
   ],
-  volumes: getServiceAppVolume(QBITTORRENT_SERVICE_NAME, {
-    withDownloads: true,
-  }),
+  volumes: {
+    [volumes.localAppdir(QBITTORRENT_SERVICE_NAME)]: '/config',
+    [volumes.LOCAL_DATA_DOWNLOADS]: '/downloads',
+  },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

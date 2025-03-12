@@ -1,10 +1,6 @@
-import { DOMAIN, ENV_FILE_PATH, NETWORK_NAME } from '../constants.ts';
+import { DOMAIN, ENV_FILE_PATH, NETWORK_NAME, volumes } from '../constants.ts';
 import { environmentVariables, restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const SONARR_SERVICE_NAME = 'sonarr';
 export const SONARR_INTERNAL_PORT = 8989;
@@ -22,9 +18,10 @@ export const defaultSonarrService: ServiceType = {
   ports: {
     [SONARR_INTERNAL_PORT]: SONARR_EXTERNAL_PORT,
   },
-  volumes: getServiceAppVolume(SONARR_SERVICE_NAME, {
-    withDownloads: true,
-    withTvShows: true,
-  }),
+  volumes: {
+    [volumes.localAppdir(SONARR_SERVICE_NAME)]: '/config',
+    [volumes.LOCAL_DATA_DOWNLOADS]: '/downloads',
+    [volumes.LOCAL_DATA_MEDIA_TVSHOWS]: '/data',
+  },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

@@ -3,13 +3,10 @@ import {
   DOMAIN,
   ENV_FILE_PATH,
   NETWORK_NAME,
+  volumes,
 } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const BAZARR_SERVICE_NAME = 'bazarr';
 export const BAZARR_INTERNAL_PORT = 6767;
@@ -27,8 +24,9 @@ export const defaultBazarrService: ServiceType = {
   ports: {
     [BAZARR_INTERNAL_PORT]: BAZARR_EXTERNAL_PORT,
   },
-  volumes: getServiceAppVolume(BAZARR_SERVICE_NAME, {
-    withMedia: true,
-  }),
+  volumes: {
+    [volumes.localAppdir(BAZARR_SERVICE_NAME)]: '/config',
+    [volumes.LOCAL_DATA_MEDIA]: '/mnt/media',
+  },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

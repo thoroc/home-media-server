@@ -3,13 +3,10 @@ import {
   DOMAIN,
   ENV_FILE_PATH,
   NETWORK_NAME,
+  volumes,
 } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const TAUTULLI_SERVICE_NAME = 'tautulli';
 export const TAUTULLI_INTERNAL_PORT = 8181;
@@ -30,7 +27,7 @@ export const defaultTautulliService: ServiceType = {
   volumes: {
     ['${HMS_DIR}/apps/plexms/config/Library/Application Support/Plex Media Server/Logs']:
       `/logs:ro`,
-    ...getServiceAppVolume(TAUTULLI_SERVICE_NAME),
+    [volumes.localAppdir(TAUTULLI_SERVICE_NAME)]: '/config',
   },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

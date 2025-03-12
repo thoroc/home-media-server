@@ -3,13 +3,10 @@ import {
   DOMAIN,
   ENV_FILE_PATH,
   NETWORK_NAME,
+  volumes,
 } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const RADARR_SERVICE_NAME = 'radarr';
 export const RADARR_INTERNAL_PORT = 7878;
@@ -27,9 +24,10 @@ export const defaultRadarrService: ServiceType = {
   ports: {
     [RADARR_INTERNAL_PORT]: RADARR_EXTERNAL_PORT,
   },
-  volumes: getServiceAppVolume(RADARR_SERVICE_NAME, {
-    withDownloads: true,
-    withMovies: true,
-  }),
+  volumes: {
+    [volumes.localAppdir(RADARR_SERVICE_NAME)]: '/config',
+    [volumes.LOCAL_DATA_DOWNLOADS]: '/mnt/downloads',
+    [volumes.LOCAL_DATA_MEDIA_MOVIES]: '/mnt/media',
+  },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

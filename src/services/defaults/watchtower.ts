@@ -1,4 +1,4 @@
-import { DOMAIN, NETWORK_NAME } from '../constants.ts';
+import { DOMAIN, NETWORK_NAME, volumes } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
 import { getTraefikLabels } from './helpers.ts';
 
@@ -11,9 +11,9 @@ export const defaultWatchtowerService: ServiceType = {
   hostname: `${WATCHTOWER_SERVICE_NAME}.${DOMAIN}`,
   labels: getTraefikLabels(WATCHTOWER_SERVICE_NAME),
   networks: [NETWORK_NAME],
-  command: '--cleanup --interval 86400',
+  command: ['--cleanup --interval 86400'],
   volumes: {
-    '/var/run/docker.sock': '/var/run/docker.sock',
+    [volumes.DOCKER_SOCKET]: volumes.DOCKER_SOCKET,
   },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };

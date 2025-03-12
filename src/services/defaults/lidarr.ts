@@ -3,13 +3,10 @@ import {
   DOMAIN,
   ENV_FILE_PATH,
   NETWORK_NAME,
+  volumes,
 } from '../constants.ts';
 import { restartPolicy, ServiceType } from '../types.ts';
-import {
-  getServiceAppVolume,
-  getServiceImage,
-  getTraefikLabels,
-} from './helpers.ts';
+import { getServiceImage, getTraefikLabels } from './helpers.ts';
 
 export const LIDARR_SERVICE_NAME = 'lidarr';
 export const LIDARR_INTERNAL_PORT = 8686;
@@ -27,8 +24,10 @@ export const defaultLidarrService: ServiceType = {
   ports: {
     [LIDARR_INTERNAL_PORT]: LIDARR_EXTERNAL_PORT,
   },
-  volumes: getServiceAppVolume(LIDARR_SERVICE_NAME, {
-    withMedia: true,
-  }),
+  volumes: {
+    [volumes.localAppdir(LIDARR_SERVICE_NAME)]: '/config',
+    [volumes.LOCAL_DATA_DOWNLOADS]: '/downloads',
+    [volumes.LOCAL_DATA_MEDIA_MUSIC]: '/media/music',
+  },
   restartPolicy: restartPolicy.UNLESS_STOPPED,
 };
