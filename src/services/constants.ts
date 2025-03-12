@@ -16,5 +16,6 @@ export const volumes = {
   LOCAL_DATA_MEDIA_MOVIES: '${HMS_DIR}/data/media/movies',
   LOCAL_DATA_MEDIA_TVSHOWS: '${HMS_DIR}/data/media/tv_shows',
   LOCAL_DATA_MEDIA_MUSIC: '${HMS_DIR}/data/media/music',
+  LOCAL_DATA_TRANSCODE: '${HMS_DIR}/data/transcode',
   localAppdir: (serviceName: string) => `\${HMS_DIR}/apps/${serviceName}`,
 };

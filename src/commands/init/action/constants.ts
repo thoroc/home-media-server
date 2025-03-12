@@ -1,6 +1,7 @@
 import {
   defaultBazarrService,
   defaultLidarrService,
+  defaultPlexService,
   defaultProwlarrService,
   defaultQbittorrentService,
   defaultRadarrService,
@@ -18,10 +19,11 @@ export interface ServiceConfig {
 export const SERVICES: ServiceConfig[] = [
   { name: 'bazarr', compose: defaultBazarrService },
   { name: 'lidarr', compose: defaultLidarrService },
+  { name: 'plexms', compose: defaultPlexService },
+  { name: 'prowlarr', compose: defaultProwlarrService },
+  { name: 'qbittorrent', compose: defaultQbittorrentService },
   { name: 'radarr', compose: defaultRadarrService },
   { name: 'sonarr', compose: defaultSonarrService },
-  { name: 'prowlarr', compose: defaultProwlarrService },
   { name: 'tautulli', compose: defaultTautulliService },
-  { name: 'qbittorrent', compose: defaultQbittorrentService },
   { name: 'watchtower', compose: defaultWatchtowerService },
 ];

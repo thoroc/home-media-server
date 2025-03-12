@@ -25,8 +25,11 @@ export const defaultTautulliService: ServiceType = {
     [TAUTULLI_INTERNAL_PORT]: TAUTULLI_EXTERNAL_PORT,
   },
   volumes: {
-    ['${HMS_DIR}/apps/plexms/config/Library/Application Support/Plex Media Server/Logs']:
-      `/logs:ro`,
+    [
+      `${
+        volumes.localAppdir('plexms')
+      }/config/Library/Application Support/Plex Media Server/Logs`
+    ]: `/logs:ro`,
     [volumes.localAppdir(TAUTULLI_SERVICE_NAME)]: '/config',
   },
   restartPolicy: restartPolicy.UNLESS_STOPPED,

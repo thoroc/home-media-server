@@ -6,6 +6,7 @@ import {
   ListOrDict,
 } from '@json-types/compose';
 import { colors } from 'jsr:@cliffy/ansi@1.0.0-rc.7/colors';
+import { exists } from 'jsr:@std/fs';
 import * as yaml from 'jsr:@std/yaml';
 import { transformObjectToArray } from './transformer.ts';
 import { RestartPolicyType, Separator, ServiceType } from './types.ts';
@@ -193,10 +194,8 @@ export class Service {
     return this;
   }
 
-  exists() {
-    return Deno.statSync(
-      `${this.rootDir}/${this.serviceName}/${this.fileName}`,
-    );
+  public get config(): string {
+    return `${this.rootDir}/${this.serviceName}/${this.fileName}`;
   }
 
   save(options?: { overwrite?: boolean }) {
@@ -215,7 +214,7 @@ export class Service {
     //     yaml.stringify(this._dockerCompose.services[this.serviceName].volumes),
     //   );
     // }
-    if (options?.overwrite || !this.exists()) {
+    if (options?.overwrite || !exists(this.config)) {
       console.log(
         `Saving ${colors.green(this.serviceName)}'s docker-config.yaml to ${
           colors.yellow(outputFile)

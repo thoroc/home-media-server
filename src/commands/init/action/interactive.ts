@@ -1,8 +1,8 @@
-import { ServiceConfig } from './constants.ts';
 import {
   Compose,
   defaultBazarrService,
   defaultLidarrService,
+  defaultPlexService,
   defaultProwlarrService,
   defaultQbittorrentService,
   defaultRadarrService,
@@ -11,9 +11,10 @@ import {
   defaultWatchtowerService,
   Service,
 } from '@scope/services';
-import { getService } from './prompts/get-service.ts';
 import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7/checkbox';
 import { exists } from 'jsr:@std/fs';
+import { ServiceConfig } from './constants.ts';
+import { getService } from './prompts/get-service.ts';
 
 interface initInteractiveActionOptions {
   services: ServiceConfig[];
@@ -53,6 +54,10 @@ export const initInteractiveAction = async (
 
     if (serviceName === 'lidarr') {
       service = await getService(defaultLidarrService);
+    }
+
+    if (serviceName === 'plexms') {
+      service = await getService(defaultPlexService);
     }
 
     if (serviceName === 'prowlarr') {
