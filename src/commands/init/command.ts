@@ -7,5 +7,5 @@ export const initCommand = new Command()
   .type('service', new ServiceType())
   .option('-s, --service <service...:services>', 'The app to initialize')
   .option('-O, --overwrite', 'Overwrite existing files')
-  .option('-I, --interactive', 'Interactive mode', { conflicts: ['app'] })
+  .option('-I, --interactive', 'Interactive mode', { conflicts: ['service'] })
   .action(initAction);
