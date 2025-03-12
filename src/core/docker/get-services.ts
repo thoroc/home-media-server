@@ -1,6 +1,6 @@
 import { PropertiesServices } from '@json-types/compose';
+import { GlobalOptions } from '@scope/commands';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
-import { GlobalOptions } from '../../commands/helpers/types.ts';
 import { DOCKER_COMPOSE_FILE } from '../constants.ts';
 import { log } from '../logger.ts';
 import { getCompose } from './get-compose.ts';

@@ -1,22 +1,23 @@
 services:
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
+    image: 'lscr.io/linuxserver/bazarr:latest'
     container_name: bazarr
     hostname: bazarr.lan
     labels:
       - traefik.enable=true
-      - traefik.http.routers.bazaar.rule=Host(`bazaar.lan`)
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.lan`)
+      - traefik.http.services.bazarr.loadbalancer.server.port=6767
     networks:
       - high-seas
     env_file:
       - ../../.env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - 'PUID=${PUID}'
+      - 'PGID=${PGID}'
+      - 'TZ=${TZ}'
     ports:
-      - 6767:6767
+      - '6767:6767'
     volumes:
-      - ${HMS_DIR}/apps/bazarr:/config
-      - ${HMS_DIR}/data/media:/mnt/media
+      - '${HMS_DIR}/apps/bazarr:/config'
+      - '${HMS_DIR}/data/media:/mnt/media'
     restart: unless-stopped

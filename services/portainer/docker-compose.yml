@@ -1,16 +1,23 @@
 services:
   portainer:
-    image: portainer/portainer-ce:latest
+    image: 'portainer/portainer-ce:latest'
     container_name: portainer
+    hostname: portainer.lan
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portainer.rule=Host(`portainer.lan`)
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
     networks:
       - high-seas
     env_file:
       - ../../.env
     environment:
-      - TZ=${TZ}
+      - 'PUID=${PUID}'
+      - 'PGID=${PGID}'
+      - 'TZ=${TZ}'
     ports:
-      - 9000:9000
+      - '9000:9000'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${HMS_DIR}/apps/portainer/data:/data
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '${HMS_DIR}/apps/portainer/data:/data'
     restart: unless-stopped

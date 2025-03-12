@@ -47,4 +47,5 @@
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   "deno.path": "/Users/thomas.roche/.local/share/mise/shims/deno",
+  "sqltools.useNodeRuntime": true,
 }

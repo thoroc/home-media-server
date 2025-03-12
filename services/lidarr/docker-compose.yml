@@ -1,23 +1,24 @@
 services:
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: 'lscr.io/linuxserver/lidarr:latest'
     container_name: lidarr
     hostname: lidarr.lan
     labels:
       - traefik.enable=true
       - traefik.http.routers.lidarr.rule=Host(`lidarr.lan`)
+      - traefik.http.services.lidarr.loadbalancer.server.port=8686
     networks:
       - high-seas
     env_file:
       - ../../.env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - 'PUID=${PUID}'
+      - 'PGID=${PGID}'
+      - 'TZ=${TZ}'
     ports:
-      - 8686:8686
+      - '8686:8686'
     volumes:
-      - ${HMS_DIR}/apps/lidarr:/config
-      - ${HMS_DIR}/data/downloads:/downloads
-      - ${HMS_DIR}/data/music:/media/music
+      - '${HMS_DIR}/apps/lidarr:/config'
+      - '${HMS_DIR}/data/downloads:/downloads'
+      - '${HMS_DIR}/data/media/music:/media/music'
     restart: unless-stopped

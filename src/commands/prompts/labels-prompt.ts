@@ -2,7 +2,7 @@ import { ListOrDict } from '@json-types/compose';
 import { transformObjectToArray } from '@scope/services';
 import { List } from 'jsr:@cliffy/prompt@1.0.0-rc.7';
 
-export const getLabelsPrompt = async (defaultLabels: ListOrDict) => {
+export const LabelsPrompt = async (defaultLabels: ListOrDict) => {
   const pattern = /^.+=.+$/;
   const validate = (value: string) => pattern.test(value);
 

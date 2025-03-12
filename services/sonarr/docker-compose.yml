@@ -1,23 +1,24 @@
 services:
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest 
+    image: 'lscr.io/linuxserver/sonarr:latest'
     container_name: sonarr
     hostname: sonarr.lan
     labels:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=Host(`sonarr.lan`)
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
     networks:
       - high-seas
     env_file:
       - ../../.env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - PUID=PUID
+      - PGID=PGID
+      - TIMEZONE=TZ
     ports:
-      - 8989:8989
+      - '8989:8989'
     volumes:
-      - ${HMS_DIR}/apps/sonarr:/config
-      - ${HMS_DIR}/data/downloads:/downloads
-      - ${HMS_DIR}/data/media/tv_shows:/data
+      - '${HMS_DIR}/apps/sonarr:/config'
+      - '${HMS_DIR}/data/downloads:/downloads'
+      - '${HMS_DIR}/data/media/tv_shows:/data'
     restart: unless-stopped

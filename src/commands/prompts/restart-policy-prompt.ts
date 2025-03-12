@@ -1,7 +1,7 @@
 import { RestartPolicyType } from '@scope/services';
 import { Select } from 'jsr:@cliffy/prompt@1.0.0-rc.7.js';
 
-export const getRestartPolicyPrompt = async (
+export const RestartPolicyPrompt = async (
   defaultRestartPolicy: RestartPolicyType,
 ) => {
   return await Select.prompt({

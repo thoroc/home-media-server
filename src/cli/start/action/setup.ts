@@ -1,7 +1,7 @@
+import { GlobalOptions } from '@scope/commands';
 import { DOCKER_COMPOSE_FILE, getCompose, mkdir } from '@scope/core';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
 import 'jsr:@std/dotenv/load';
-import { GlobalOptions } from '../../helpers/types.ts';
 
 interface SetupDirOptions extends GlobalOptions {
   dcFile?: string;

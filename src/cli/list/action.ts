@@ -1,3 +1,4 @@
+import { GlobalOptions } from '@scope/commands';
 import {
   getIncludedServices,
   getRunningServices,
@@ -5,7 +6,6 @@ import {
   log,
 } from '@scope/core';
 import { colors } from 'jsr:@cliffy/ansi@^1.0.0-rc.7/colors';
-import { GlobalOptions } from '../helpers/types.ts';
 
 interface ListOptions extends GlobalOptions {
   all?: boolean;

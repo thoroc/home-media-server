@@ -1,21 +1,22 @@
 services:
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest 
+    image: 'lscr.io/linuxserver/prowlarr:latest'
     container_name: prowlarr
     hostname: prowlarr.lan
     labels:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.rule=Host(`prowlarr.lan`)
-    networks: 
-      - high-seas 
+      - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+    networks:
+      - high-seas
     env_file:
       - ../../.env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    ports: 
-      - 9696:9696
-    volumes: 
-      - ${HMS_DIR}/apps/prowlarr:/config
-    restart: unless-stopped 
+      - 'PUID=${PUID}'
+      - 'PGID=${PGID}'
+      - 'TZ=${TZ}'
+    ports:
+      - '9696:9696'
+    volumes:
+      - '${HMS_DIR}/apps/prowlarr:/config'
+    restart: unless-stopped

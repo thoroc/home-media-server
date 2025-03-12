@@ -38,6 +38,7 @@
     ]
   },
   "workspace": [
+    "src/cli",
     "src/commands",
     "src/services",
     "src/core"

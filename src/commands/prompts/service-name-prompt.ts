@@ -1,8 +1,8 @@
 import { Input } from 'jsr:@cliffy/prompt@1.0.0-rc.7';
 
-export const getImagePrompt = async (defaultImage: string) => {
+export const ServiceNamePrompt = async (defaultImage: string) => {
   return await Input.prompt({
-    message: 'Enter image:',
+    message: 'Enter service name:',
     default: defaultImage,
   });
 };

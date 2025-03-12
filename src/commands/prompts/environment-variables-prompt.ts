@@ -2,7 +2,7 @@ import { ListOrDict } from '@json-types/compose';
 import { transformObjectToArray } from '@scope/services';
 import { List } from 'jsr:@cliffy/prompt@1.0.0-rc.7';
 
-export const getEnvironmentVariablesPrompt = async (
+export const EnvironmentVariablesPrompt = async (
   defaultEnvironment: ListOrDict,
 ) => {
   const pattern = /^[^=]+=[^=]+$/;

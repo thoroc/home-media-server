@@ -1,6 +1,5 @@
+import { ServiceCheckbox, ServicePrompt } from '@scope/commands';
 import { Compose, Service, ServiceConfig } from '@scope/services';
-import { ServiceCheckbox } from '../../helpers/mod.ts';
-import { getService } from './prompts/get-service.ts';
 
 interface initInteractiveActionOptions {
   services: ServiceConfig[];
@@ -28,7 +27,7 @@ export const initInteractiveAction = async (
     ) => service.name === serviceName);
 
     if (serviceNames.includes(serviceName) && defaultService?.compose) {
-      service = await getService(defaultService.compose);
+      service = await ServicePrompt(defaultService.compose);
     }
 
     new Service(serviceName, {

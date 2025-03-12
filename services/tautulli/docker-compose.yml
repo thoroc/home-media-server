@@ -1,22 +1,23 @@
 services:
   tautulli:
-    image: lscr.io/linuxserver/tautulli:latest
+    image: 'lscr.io/linuxserver/tautulli:latest'
     container_name: tautulli
     hostname: tautulli.lan
     labels:
       - traefik.enable=true
       - traefik.http.routers.tautulli.rule=Host(`tautulli.lan`)
+      - traefik.http.services.tautulli.loadbalancer.server.port=8181
     networks:
       - high-seas
     env_file:
       - ../../.env
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
+      - 'PUID=${PUID}'
+      - 'PGID=${PGID}'
+      - 'TZ=${TZ}'
     ports:
-      - 8181:8181
+      - '8181:8181'
     volumes:
-      - ${HMS_DIR}/apps/tautulli/config:/config
-      - ${HMS_DIR}/apps/plexms/config/Library/Application Support/Plex Media Server/Logs:/logs:ro
+      - '${HMS_DIR}/apps/plexms/config/Library/Application Support/Plex Media Server/Logs:/logs:ro'
+      - '${HMS_DIR}/apps/tautulli:/config'
     restart: unless-stopped

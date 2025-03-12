@@ -1,4 +1,4 @@
-import { GlobalOptions } from '../../commands/helpers/types.ts';
+import { GlobalOptions } from '@scope/commands';
 import { log } from '../logger.ts';
 
 interface EnvOptions extends GlobalOptions {

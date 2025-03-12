@@ -1,7 +1,6 @@
+import { AppCheckbox, GlobalOptions } from '@scope/commands';
 import 'jsr:@std/dotenv/load';
 import * as dc from 'npm:docker-compose';
-import { AppCheckbox } from '../../helpers/mod.ts';
-import { GlobalOptions } from '../../helpers/types.ts';
 import { setupDir } from './setup.ts';
 
 interface StartInteractiveOptions extends GlobalOptions {
