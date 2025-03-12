@@ -1,19 +1,5 @@
-import {
-  Compose,
-  defaultBazarrService,
-  defaultLidarrService,
-  defaultPlexService,
-  defaultProwlarrService,
-  defaultQbittorrentService,
-  defaultRadarrService,
-  defaultSonarrService,
-  defaultTautulliService,
-  defaultWatchtowerService,
-  Service,
-} from '@scope/services';
-import { Checkbox } from 'jsr:@cliffy/prompt@1.0.0-rc.7/checkbox';
-import { exists } from 'jsr:@std/fs';
-import { ServiceConfig } from './constants.ts';
+import { Compose, Service, ServiceConfig } from '@scope/services';
+import { ServiceCheckbox } from '../../helpers/mod.ts';
 import { getService } from './prompts/get-service.ts';
 
 interface initInteractiveActionOptions {
@@ -27,61 +13,22 @@ export const initInteractiveAction = async (
   const overwrite = options.overwrite || false;
 
   console.log('Interactive mode enabled!');
-  const answers = await Checkbox.prompt({
-    message: 'Select service to initialize:',
-    options: await Promise.all(
-      options.services.map(async (service) => {
-        const configExists = await exists(
-          `${Deno.cwd()}/services/${service.name}/docker-compose.yaml`,
-        );
-        return {
-          name: `${service.name}${!configExists ? ' (exists)' : ''}`,
-          value: service.name,
-          checked: !configExists,
-        };
-      }),
-    ),
-  });
+  const answers = await ServiceCheckbox(
+    'Select service to initialise',
+    options.services,
+  );
 
   console.log('Selected services:', answers);
+  const serviceNames = options.services.map((service) => service.name);
 
   for (const serviceName of answers) {
     let service: Compose = {};
+    const defaultService: ServiceConfig | undefined = options.services.find((
+      service,
+    ) => service.name === serviceName);
 
-    if (serviceName === 'bazarr') {
-      service = await getService(defaultBazarrService);
-    }
-
-    if (serviceName === 'lidarr') {
-      service = await getService(defaultLidarrService);
-    }
-
-    if (serviceName === 'plexms') {
-      service = await getService(defaultPlexService);
-    }
-
-    if (serviceName === 'prowlarr') {
-      service = await getService(defaultProwlarrService);
-    }
-
-    if (serviceName === 'qbittorrent') {
-      service = await getService(defaultQbittorrentService);
-    }
-
-    if (serviceName === 'radarr') {
-      service = await getService(defaultRadarrService);
-    }
-
-    if (serviceName === 'sonarr') {
-      service = await getService(defaultSonarrService);
-    }
-
-    if (serviceName === 'tautulli') {
-      service = await getService(defaultTautulliService);
-    }
-
-    if (serviceName === 'watchtower') {
-      service = await getService(defaultWatchtowerService);
+    if (serviceNames.includes(serviceName) && defaultService?.compose) {
+      service = await getService(defaultService.compose);
     }
 
     new Service(serviceName, {

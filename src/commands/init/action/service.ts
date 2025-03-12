@@ -1,13 +1,12 @@
-import { Service, ServiceOptions } from '@scope/services';
-import { ServiceConfig } from './constants.ts';
+import { Service, ServiceConfig, ServiceOptions } from '@scope/services';
 
-interface InitActionOptions {
+interface InitServiceOptions {
   services: ServiceConfig[];
   overwrite?: boolean;
 }
 
-export const initAppAction = (options: InitActionOptions) => {
-  console.log('Initializing app...', options);
+export const initServiceAction = (options: InitServiceOptions) => {
+  console.log('Initializing service...', options);
 
   const overwrite = options.overwrite || false;
 

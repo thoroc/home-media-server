@@ -1,4 +1,16 @@
-import { environmentVariables } from './types.ts';
+import {
+  defaultBazarrService,
+  defaultLidarrService,
+  defaultPlexService,
+  defaultPortainerService,
+  defaultProwlarrService,
+  defaultQbittorrentService,
+  defaultRadarrService,
+  defaultSonarrService,
+  defaultTautulliService,
+  defaultWatchtowerService,
+} from './mod.ts';
+import { environmentVariables, ServiceConfig } from './types.ts';
 
 export const DEFAULT_ENVIRONMENT_VARIABLES = {
   [environmentVariables.PUID]: `\${${environmentVariables.PUID}}`,
@@ -19,3 +31,16 @@ export const volumes = {
   LOCAL_DATA_TRANSCODE: '${HMS_DIR}/data/transcode',
   localAppdir: (serviceName: string) => `\${HMS_DIR}/apps/${serviceName}`,
 };
+
+export const SERVICES: ServiceConfig[] = [
+  { name: 'bazarr', compose: defaultBazarrService },
+  { name: 'lidarr', compose: defaultLidarrService },
+  { name: 'plexms', compose: defaultPlexService },
+  { name: 'portainer', compose: defaultPortainerService },
+  { name: 'prowlarr', compose: defaultProwlarrService },
+  { name: 'qbittorrent', compose: defaultQbittorrentService },
+  { name: 'radarr', compose: defaultRadarrService },
+  { name: 'sonarr', compose: defaultSonarrService },
+  { name: 'tautulli', compose: defaultTautulliService },
+  { name: 'watchtower', compose: defaultWatchtowerService },
+];

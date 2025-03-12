@@ -41,3 +41,8 @@ export const Separator = {
 } as const;
 
 export type SeparatorType = typeof Separator[keyof typeof Separator];
+
+export interface ServiceConfig {
+  name: string;
+  compose: ServiceType;
+}

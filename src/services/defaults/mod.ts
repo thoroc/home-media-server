@@ -1,6 +1,7 @@
 export { defaultBazarrService } from './bazarr.ts';
 export { defaultLidarrService } from './lidarr.ts';
 export { defaultPlexService } from './plex.ts';
+export { defaultPortainerService } from './portainer.ts';
 export { defaultProwlarrService } from './prowlarr.ts';
 export { defaultQbittorrentService } from './qbittorrent.ts';
 export { defaultRadarrService } from './radarr.ts';
