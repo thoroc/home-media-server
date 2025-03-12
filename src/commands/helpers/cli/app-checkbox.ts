@@ -10,7 +10,7 @@ interface AppCheckboxOptions extends GlobalOptions {
   running?: boolean;
 }
 
-export const appsCheckbox = async (
+export const AppCheckbox = async (
   actionName: string,
   options?: AppCheckboxOptions,
 ): Promise<string[]> => {

@@ -1,6 +1,6 @@
 import 'jsr:@std/dotenv/load';
 import * as dc from 'npm:docker-compose';
-import { appsCheckbox } from '../../helpers/mod.ts';
+import { AppCheckbox } from '../../helpers/mod.ts';
 import { GlobalOptions } from '../../helpers/types.ts';
 import { setupDir } from './setup.ts';
 
@@ -13,7 +13,7 @@ export const startInteractive = async (options?: StartInteractiveOptions) => {
   let response: dc.IDockerComposeResult;
   console.log('Starting interactive mode...');
 
-  const apps = await appsCheckbox('start');
+  const apps = await AppCheckbox('start');
 
   await setupDir(apps, { verbose: options?.verbose });
 

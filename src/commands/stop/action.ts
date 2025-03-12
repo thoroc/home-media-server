@@ -1,5 +1,5 @@
 import * as dc from 'npm:docker-compose';
-import { appsCheckbox } from '../helpers/mod.ts';
+import { AppCheckbox } from '../helpers/mod.ts';
 
 interface StopOptions {
   all?: boolean;
@@ -19,7 +19,7 @@ export const stopAction = async (options: StopOptions) => {
     if (interactive) {
       console.log('Starting interactive mode...');
 
-      const apps = await appsCheckbox('start', { running: true });
+      const apps = await AppCheckbox('start', { running: true });
       response = await dc.downMany(apps, config);
 
       console.log(response.out);

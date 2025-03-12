@@ -1,2 +1,2 @@
-export { appsCheckbox } from './cli/choices.ts';
-export { AppType } from './cli/option-type.ts';
+export { AppCheckbox } from './cli/app-checkbox.ts';
+export { AppType } from './cli/app-type.ts';
