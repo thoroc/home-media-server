@@ -4,6 +4,6 @@ import { initAction } from './action/mod.ts';
 export const initCommand = new Command()
   .description('Initialize a new project')
   .option('-a, --app <app...:string>', 'The app to initialize')
-  .option('-f, --force', 'Force initialization')
+  .option('-O, --overwrite', 'Overwrite existing files')
   .option('-I, --interactive', 'Interactive mode', { conflicts: ['app'] })
   .action(initAction);

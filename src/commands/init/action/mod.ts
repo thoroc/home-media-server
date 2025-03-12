@@ -1,24 +1,24 @@
 import { Service, ServiceOptions } from '@scope/services';
-import { initInteractiveAction } from './interactive.ts';
-import { SERVICES } from './constants.ts';
 import { initAppAction } from './app.ts';
+import { SERVICES } from './constants.ts';
+import { initInteractiveAction } from './interactive.ts';
 
 interface InitActionOptions {
   interactive?: boolean;
   app?: string[];
-  force?: boolean;
+  overwrite?: boolean;
 }
 
 export const initAction = async (options: InitActionOptions) => {
   console.log('Initializing project...', options);
   const interactive = options.interactive || false;
   const app = options.app || [];
-  const force = options.force || false;
+  const overwrite = options.overwrite || false;
   const availableServices = SERVICES.map((service) => service.name);
 
   try {
     if (interactive) {
-      await initInteractiveAction({ services: SERVICES, overwrite: force });
+      await initInteractiveAction({ services: SERVICES, overwrite: overwrite });
     } else if (
       app.length > 0 &&
       app.every((service) => availableServices.includes(service))
@@ -27,7 +27,7 @@ export const initAction = async (options: InitActionOptions) => {
         app.includes(service.name)
       );
 
-      await initAppAction({ services: initServices, overwrite: force });
+      await initAppAction({ services: initServices, overwrite: overwrite });
     } else {
       console.log('Interactive mode disabled!');
       for (const service of SERVICES) {
@@ -38,7 +38,7 @@ export const initAction = async (options: InitActionOptions) => {
           compose,
         };
 
-        new Service(serviceName, serviceOptions).save({ overwrite: force });
+        new Service(serviceName, serviceOptions).save({ overwrite });
       }
     }
   } catch (error) {
